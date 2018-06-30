@@ -2,15 +2,16 @@
 
 ## Presented by the Bioinformatics Hub <br> University of Adelaide
 
-Sept 26, 2017  
+July 6, 2018  
 9am - 5pm  
-Room 422  
-Horace Lamb Building  
+Room 450  
+The Braggs   
 University of Adelaide
 
 # Course Material
 
 - [1 Introduction](notes/Introduction)
+- [2 File Types](notes/file_types)
 - [2 What Is NGS Data](notes/raw_data)
 - [3 Quality Control](notes/qc)
 - [4 Trimming And Filtering Data](notes/filtering_sequence)
