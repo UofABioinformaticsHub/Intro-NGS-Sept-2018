@@ -34,7 +34,9 @@ In this course, we will introduce the key file types used in genomic analyses, i
 Today your helpers will be
 
 - Steve Pederson, Hien To (Bioinformatics Hub)
+- Jimmy Breen (Bioinformatics Hub / SAHMRI)
 - Terry Bertozzi (SA Museum)
+- Justin Bogias, Awais Choudhry, Chris Ward
 
 ## Recommendations For Working
 
