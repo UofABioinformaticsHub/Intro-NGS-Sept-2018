@@ -3,9 +3,9 @@
 
 # Quality Control
 
-## Using fastqc
+## Using FastQC
 
-A common tool for checking the quality of a fastq file is the program fastqc.
+A common tool for checking the quality of a fastq file is the program FastQC.
 As with all programs on the command line, we need to see how it works before we use it.
 The following command will open the help file in the less pager which we used earlier.
 To navigate through the file, use the `<spacebar>` to move forward a page, `<b>` to move back a page & `<q>` to exit the manual.
@@ -14,8 +14,8 @@ To navigate through the file, use the `<spacebar>` to move forward a page, `<b>`
 fastqc -h | less
 ```
 
-Fastqc will create an html report on each file you submit which can be opened from any web browser, such as firefox.
-As seen in the help page, fastqc can be run from the command line or from a graphic user interface (GUI).
+FastQC will create an html report for each file you provide, which can then be opened from any web browser such as firefox.
+As seen in the help page, FastQC can be run from the command line or from a graphic user interface (GUI).
 Using a GUI is generally intuitive so today we will look at the command line usage, as that will give you more flexibility & options going forward.
 Some important options for the command can be seen in the manual.
 As you will see in the manual, setting the `-h` option as above will call the help page.
@@ -31,7 +31,7 @@ As we have two files, we will first need to create the output directory, then we
 This can be much quicker when dealing with large experiments.
 
 ```
-cd ~/WGS/rawData/
+cd ~/WGS/01_rawData/
 mkdir FastQC
 cd fastq
 fastqc -o ../FastQC -t 2 *gz
@@ -40,27 +40,30 @@ fastqc -o ../FastQC -t 2 *gz
 It’s probably a good idea to scribble a note next to each line if you didn’t understand what you did.
 If you haven’t seen the command `mkdir` before, check the help page `man mkdir`.
 
-The above command gave both files to `fastqc`, told it where to write the output (`-o  ̃FastQC`) & requested two threads (`-t 2`).
-The reports are in the html files, with all of the plots & additional data stored in the zip files.
+The above command:
 
-To look at the QC report for each file, we can use `firefox`.
+1. Gave both files to `fastqc` using `*gz`
+2. Specified where to write the output (`-o  ̃FastQC`) &
+3. Requested two threads (`-t 2`).
+
+Let's see what we have:
 
 ```
-cd ~/WGS/rawData/FastQC
+cd ~/WGS/01_rawData/FastQC
 ls -lh
 ```
 
 The reports are in `html` files, which may be in the `FastQC` directory, or may be in the directories for the individual files, (depending on your version of FastQC).
-Find the `html` files and open using your favourite browser.
-If you have FileZilla installed, you can download these to your local machine and open them from there.
-Otherwise open them in Ubuntu using the following command.
-(The best browser for those on the VMs is firefox).
+When working on your won data, you'll find the `html` files then open using your favourite browser.
+The best browser for those on the VMs is `firefox`, so we can open them in Ubuntu using the following command.
 
 ```
-firefox *html
+firefox *html &
 ```
 
-The left hand menu contains a series of click-able links to navigate through the report, with a quick guideline about each section given as a tick, cross of exclamation mark.
+## Inspecting a FastQC Report
+
+The left hand menu contains a series of click-able links to navigate through the report, with a quick guideline about each section given as a tick, cross or exclamation mark.
 Two hints which may make your inspection of these files easier are:
 
 1. To zoom out in firefox use the shortcut `Ctrl-`. Reset using `Ctrl0` and zoom in using `Ctrl+`
@@ -88,14 +91,14 @@ We’ll investigate some of the others with some ‘bad’ data later.
 Both of the files should be open in firefox in separate tabs.
 Perform the following steps on both files.
 Click on the `Per base sequence quality` hyperlink on the left of the page & you will see a boxplot of the QC score distributions for every position in the read.
-This is the main plot that bioinformaticians will look at for making informed decisions about later stages of the analysis.
+This is the first plot that bioinformaticians will look at for making informed decisions about later stages of the analysis.
 
 *What do you notice about the QC scores as you progress through the read?*
 
 We will deal with trimming the reads in a later section, but start to think about what you should do to the reads to ensure the highest quality in your final alignment & analysis.
 
 **Per Tile Sequence Quality**
-This section just gives a quick visualisation about any physical effects on sequence quality due to the tile within the each flowcell.
+This section just gives a quick visualisation about any physical effects on sequence quality due to the tile within the each flowcell or lane.
 For the first file, you will notice an even breakdown in the quality of sequences near the end of the reads across all tiles.
 In our second QC report, you will notice a poor quality around the 25th base in the 2nd (or 3rd) tile.
 Generally, this would only be of note if drilling deeply to remove data from tiles with notable problems.
@@ -117,7 +120,9 @@ This is only calculated on a small sample of the library for computational effic
 **Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (i.e. inserts) then the sequencing will run into the adapters.
 If you have used custom adapters, you may need to supply them to `FastQC` as this only searches for common adapter squences.
 
-**Kmer Content** Statistically over-represented `k`-mers can be seen here & often they will overlap.
+**Kmer Content**
+This plot was not particularly informative and has been dropped in FastQC >= 0.11.6.
+Statistically over-represented `k`-mers can be seen here & often they will overlap.
 In our first plot, the black & blue `k`-mers are the same motif, just shifted along one base.
 No information is given as to the source of these sequences, and you would expect to see barcode sequences or motifs that correspond to any digestion protocols here.
 
@@ -135,13 +140,9 @@ problem has arisen.
 
 **Overrepresented Sequences** Head to this section of the report & scan down the
 list. Unlike our sample data, there seem to be a lot of enriched sequences of unknown
-origin. There is one hit to an Illumina adaptor sequence, so we know at least one of the
+origin. There is one hit to an Illumina adapter sequence, so we know at least one of the
 contaminants in the data. Note that some of these sequences are the same as others on
-the list, just shifted one or two base pairs. A possible source of this may have been non
-random fragmentation.
-
-**Kmer Content**
-*Do you notice anything unusual about this plot?*
+the list, just shifted one or two base pairs. A possible source of this may have been non-random fragmentation.
 
 
 Interpreting the various sections of the report can take time & experience.
@@ -153,14 +154,15 @@ This is a good example, of why just skimming the first plot may not be such a go
 
 ## Working With Larger Datasets
 
-In our dataset of two samples it is quite easy to think about the whole experiment &
-assess the overall quality.
+In our dataset of two samples it is quite easy to think about the whole experiment & assess the overall quality.
+
 *What about if we had 100 samples?*
+
 Each .zip archive contains text files with the information which can easily be parsed into an overall summary.
 We could write a script to extract this information if we had the time.
-However, the Bioinformatics Hub has been writing an `R` package to help with this, which is available from https://github.com/UofABioinformaticsHub/ngsReports.
+However, some members of the Bioinformatics Hub have been writing an `R` package to help with this, which is available from https://github.com/UofABioinformaticsHub/ngsReports.
 
-We're hoping to publish this soon and using the package is beyond the scope of today.
+We'll publish this soon and using the package is beyond the scope of today.
 However, we've included a [sample report](../data/ngsReports_Fastqc) of a dataset summarised using heatmaps.
 This is simply the default report produced and the package is capable of exploring large datasets relatively easily.
 Have a look at [this report](../data/ngsReports_Fastqc) and see if you can understand any of the plots.

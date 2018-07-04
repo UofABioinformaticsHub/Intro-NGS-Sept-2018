@@ -59,7 +59,8 @@ In the output from the above terminal command, we have obtained the first 8 line
 3. An alternate line for the identifier (commonly left blank as just a + symbol acting as a placeholder)
 4. The quality scores for each position along the read as a series of ascii text characters. Let’s have a brief look at each of these lines and what they mean.
 
-## 1. The read identifier
+### 1. The read identifier
+{:.no_toc}
 
 This line begins with an @ symbol and although there is some variability between dirrerent sequencing platforms and software versions, it traditionally has several components.  Today’s data have been sourced from an EBI data repository with the identifier SRR065388.  For the first sequence in this file, we have the full identifier `@SRR2003569.1 JLK5VL1:245:D1DF6ACXX:6:1101:4181:2239/1` which has the following components:
 
@@ -81,7 +82,7 @@ zcat SRR2003569_sub_2.fastq.gz | head -n8
 
 Here you will notice that the information in the identifier is identical to the first file we inspected, with the exception that there is a `/2` at the end.  This indicates that these reads are the second set in what are known as paired-end reads, as were introduced in the above video.  The two files will have this identical structure where the order of the sequences in one is identical to the order of the sequences in the other.  This way when they are read as a pair of files, they can be stepped through read-by-read & the integrity of the data will be kept intact.
 
-### The Illumina Chastity Filter
+#### The Illumina Chastity Filter
 {:no_toc}
 
 It is also worth noting that the reads we’ve just glanced at come from a version of the Illumina casava pipeline which is \<1.8, and which is a relatively common format.
@@ -100,13 +101,15 @@ The tool fastq illumina filter is designed to remove these reads for you & the t
 
 We won't spend any further time on this today, but it is an important thing to be aware of.
 
-## 2. The Sequence Read
+### 2. The Sequence Read
+{:.no_toc}
 
 This is pretty obvious, and just contains the sequence generated from each cluster on the flow-cell.
 Notice, that after this line is one which just begins with the `+` symbol and is blank.
 In early versions of th technology, this repeated the sequence identifier, but this is now just a placeholder.
 
-## 3. Quality Scores
+### 3. Quality Scores
+{:.no_toc}
 
 The only other line in the fastq format that really needs some introduction is the quality score information. These  are  presented  as  single *ascii* text characters for simple visual alignment with the sequence.
 In the ascii text system, each character has a numeric value which we can interpret as an integer, and in this context is the quailty score for the corresponding base. Head to the website with a description of these at [ASCII Code table](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_code_chart).
@@ -138,6 +141,7 @@ L - Illumina 1.8+ Phred+33, raw reads typically (0, 41)
 ```
 
 ### Interpretation of PHRED Scores
+{:.no_toc}
 
 The quality scores are related to the probability of calling an incorrect base through the
 formula  
