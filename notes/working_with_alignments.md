@@ -11,17 +11,17 @@ This conversion means that file sizes are smaller, and that computational proces
 Typically, we work with BAM files as these provide gains in storage space & analytic speed.
 The tools we use to inspect these files are provided in the package samtools, which has been installed on your VM.
 
-The reads from the previous dataset which mapped to *chrI* of *C. elegans* are in the folder `~/WGS/trimmedData/fastq`
+The reads from the previous dataset which mapped to *chrI* of *C. elegans* are in the folder `~/WGS/02_trimmedData/fastq`
 
 ```
-cd ~/WGS/trimmedData/fastq
+cd ~/WGS/02_trimmedData/fastq
 ls
 ```
 
 ## Conversion to BAM format
 
 The BAM format is much more convenient computationally, so we have converted our alignments into BAM format using `samtools view` during the alignment process.
-SAM files are plain text, whilst BAM files are compressed and much easier for the computer to read/write.
+SAM files are *plain text*, whilst BAM files are *compressed* and much easier for the computer to read/write.
 As BAM files are in binary format they will look like gibberish if we try to read them directly.
 Instead we can inspect them by using `samtools view` as in the line above.
 
@@ -77,7 +77,7 @@ For example, if the read is paired \& mapped in a proper pair, but no other attr
 
 
 
-Things can easily begin to confuse people once you start searching for specific flags, but if you remember that each attribute is like an individual flag that is either on or off (i.e. it is binary).
+Things can easily begin to confuse people once you start searching for specific flags, but if you remember that each attribute is like an individual flag that is either on or off (i.e. it is actually a binary bit with values 0 or 1).
 If you searched for flags with the value 1, you wouldn't obtain the alignments with the exact value 1, rather you would obtain the alignments for which the first flag is set & these can take a range of values.
 
 
@@ -115,4 +115,4 @@ In the first few reads we called up earlier, most had the value `..M` where `..`
 These are the perfect Matches, where the sequence has aligned exactly.
 The other abbreviations in common use are I (insertion), D (deletion) & S(substitution).
 
-What is the interpretation of the first `CIGAR` string in your set of alignments.
+What is the interpretation of the first `CIGAR` string in your set of alignments?

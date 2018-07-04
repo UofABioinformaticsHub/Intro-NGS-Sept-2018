@@ -21,7 +21,7 @@ This helps the variant caller to run the calling algorithm efficiently and preve
 
 ---
 **Note: Additional Filtering**
-Ideally, before we start calling variants, there is a level of duplicate filtering that needs to be carried out to ensure accuracy of variant calling and allele frequencies. The definition of read duplicates can differ depending on which program you use, but usually it means 'a read in an alignment that has exactly the same start and end position'. The `samtools` documentation states "if multiple read pairs have identical external coordinates, only retain the pair with highest mapping quality". While this seems fine for a simple sequencing experiment, this method has drawbacks for large sequencing projects that may use multiple libraries etc. A more robust duplicate removal program such as [MarkDuplicates from Picard Tools](http://broadinstitute.github.io/picard/) is commonly used. Below is an example of what you usually need to run to filter duplicates
+Ideally, before we start calling variants, there is a level of duplicate filtering that needs to be carried out to ensure accuracy of variant calling and allele frequencies. The definition of read duplicates can differ depending on which program you use, but usually it means 'a read in an alignment that has exactly the same start and end position'. The `samtools` documentation states "if multiple read pairs have identical external coordinates, only retain the pair with highest mapping quality". While this seems fine for a simple sequencing experiment, this method has drawbacks for large sequencing projects that may use multiple libraries etc. A more robust duplicate removal program such as [MarkDuplicates from Picard Tools](http://broadinstitute.github.io/picard/) is commonly used. Below is an example of what you usually need to run to filter duplicates, however **we'll skip this step today**.
 
 ```
 # Remove duplicates the samtools way
@@ -31,7 +31,6 @@ samtools rmdup [SORTED BAM] [SORTED RMDUP BAM]
 java -jar /path/to/picard/tools/picard.jar MarkDuplicates I=[SORTED BAM] O=[SORTED RMDUP BAM] M=dups.metrics.txt REMOVE_DUPLICATES=true
 ```
 
-In this tutorial, we will not remove duplicates.
 
 ---
 
@@ -112,7 +111,6 @@ Just because a variant is called, does not mean that it is a true positive! Each
 ```
 QUAL phred-scaled quality score for the assertion made in ALT. i.e. give -10log_10 prob(call in ALT is wrong). If ALT is ”.” (no variant) then this is -10log_10 p(variant), and if ALT is not ”.” this is -10log_10 p(no variant). High QUAL scores indicate high confidence calls. Although traditionally people use integer phred scores, this field is permitted to be a floating point to enable higher resolution for low confidence calls if desired. (Numeric)
 ```
-
 
 
 To weed out the low confidence calls in our VCF file we need to filter by QUAL. This can be done using the `bcftools` program that's included within the `samtools` suite of tools. All these tools can run on gzip-compressed files which saves a lot of space on your computer.

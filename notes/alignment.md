@@ -63,17 +63,24 @@ You should be able to open a few of the files with the ”less” command, howev
 
 ## Aligning the reads
 
-Because we only have a small subset of the actual sequencing run, we should be able to run this alignment in a reasonable period of time
+Because we only have a small subset of the actual sequencing run, we should be able to run this alignment in a reasonable period of time.
+First we'll create a folder to output the alignments.
 
 ```
-cd ~/WGS/trimmedData/fastq
-bwa mem -t 4 ~/WGS/Celegans_chrI SRR2003569_sub_1.fastq.gz SRR2003569_sub_2.fastq.gz | samtools view -bhS -F4 -> SRR2003569_chI.bam
+cd ~/WGS
+mkdir -p 03_alignedData/bam
 ```
 
-Let’s break down this command a little.  The first part of the command:
+```
+cd ~/WGS/02_trimmedData/fastq
+bwa mem -t 2 ~/WGS/Celegans_chrI SRR2003569_sub_1.fastq.gz SRR2003569_sub_2.fastq.gz | samtools view -bhS -F4 -> SRR2003569_chI.bam
+mv SRR2003569_chI.bam ../../03_alignedData/bam
+```
+
+Let’s break down this main command a little.  The first part of the command:
 
 ```
-bwa mem -t 4 ~/WGS/Celegans_chrI SRR2003569_sub_1.fastq.gz SRR2003569_sub_2.fastq.gz
+bwa mem -t 2 ~/WGS/Celegans_chrI SRR2003569_sub_1.fastq.gz SRR2003569_sub_2.fastq.gz
 ```
 
 will align our compressed sequenced reads to the Celegans_chrI `bwa` index that we made. Usually you can create a SAM file (see next section) to store all the alignment data.  SAM files however are text files which can take up a significant amount of disk space, so its much more efficient to pipe it to the `samtools` command and create a compressed binary SAM file (called BAM). To do this, we run the program `samtools`:
@@ -84,11 +91,16 @@ samtools view -bhS - > SRR2003569_chI.bam
 
 In this context, `samtools` view is the general command that allows the conversion of the SAM to BAM. There is another more compressed version of the SAM file, called CRAM, which you can also create using `samtools` view.  However, we will not use that today.
 
-**Note:** By using the `-t 4` parameter, we can take advantage of modern computers that allow multi-threading or parallelisation. This just means that the command can be broken up into 4 chunks and run in parallel, speeding up the process. Check you computers system settings, but you should be able to use at least 2 or 4 threads to run this alignment!
+**Note:** By using the `-t 2` parameter, we can take advantage of modern computers that allow multi-threading or parallelisation. This just means that the command can be broken up into 2 chunks and run in parallel, speeding up the process. Check your computer's system settings, but you should be able to use at least 2 or 4 threads to run this alignment!
+If using phoenix or another HPC, this can really speed things up.
+
+From there we moved our alignments into a more appropriate directory.
+We could've written to this directory directly, and would usually do this in a full analysis, but the command was already getting rather lengthy.
 
 To find out information on your resulting alignment you can `samtools`:
 
 ```
+cd ~/WGS/03_alignedData/bam
 samtools stats SRR2003569_chI.bam
 ```
 
@@ -115,7 +127,7 @@ samtools index SRR2003569_chI.sorted.bam
 ```
 
 Now we can open IGV by entering `igv` in the terminal.
-If you have logged into a VM using `ssh -X`, this will open on your local machine in a new window which may take a moment or two.
+This will open in a new window which may take a moment or two.
 
 ```
 igv
