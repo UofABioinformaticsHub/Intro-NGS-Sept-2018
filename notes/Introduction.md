@@ -9,7 +9,7 @@
 ## General Information
 
 Thank you for your attendance & welcome to the *Introduction to NGS Data* Workshop.
-This is an offering by the University of Adelaide, Bioinformatics Hub in conjunction with other local bioinformaticians, operating as the Bioinformatics Interest Group if SA (BIG-SA).
+This is an offering by the University of Adelaide, Bioinformatics Hub in conjunction with other local bioinformaticians, operating as the Bioinformatics Interest Group of SA (BIG-SA).
 The Bioinformatics Hub is a centrally funded initiative from the Department of Vice-Chancellor (Research), with the aim of assisting & enabling researchers in their work.
 Training workshops & seminars such as this one are an important part of this initiative.
 

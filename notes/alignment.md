@@ -3,7 +3,7 @@
 
 # Sequence Alignment
 
-Once we have cleaned our data of any contaminating sequences, and removed the bases which are more likely to contain errors we can more confidently align our reads to a reference.  Different experiments may have different reference sequences depending on the context.  For example, if we have a sub-sample of the genome associated with restriction sites like RAD-Seq, we would probably align to a reference genome, or if we have RNA-Seq we might choose to align to the transcriptome instead of the whole genome.  Alternatively, we might be interested in de novo genome assembly where we have no reference genome to compare our data to.
+Once we have cleaned our data of any contaminating sequences, and removed the bases which are more likely to contain errors we can more confidently align our reads to a reference.  Different experiments may have different reference sequences depending on the context.  For example, if we have a sub-sample of the genome associated with restriction sites like RAD-Seq, we would probably align to a reference genome, or if we have RNA-Seq we might choose to align to the transcriptome instead of the whole genome.  Alternatively, we might be interested in *de novo* genome assembly where we have no reference genome to compare our data to.
 
 ## How Aligning Works
 
@@ -19,9 +19,9 @@ Some key differences between aligners is in the way they index the genome, and i
 
 To align any reads, we first need to download the appropriate (i.e.  latest) genome \& then we can build the index to enable fast searching via the Burrows-Wheeler Transform. Like we’ve seen in the previous sections, our reads today come from the nematode or Roundworm (*Caenorhabditis elegans*).  
 
-**Note**: If you want the full genome sequence you can use the command-line program `wget` to download the *C. elegans* genome sequence. If `wget` doesnt work for you, you can always you can always redownload the genome (like you can do with all model genomes) by opening Firefox & head to [ftp://ftp.ensembl.org/pub/release-90/fasta/caenorhabditis_elegans/](ftp://ftp.ensembl.org/pub/release-90/fasta/caenorhabditis_elegans/).  
+**Note**: If you want the full genome sequence you can use the command-line program `wget` to download the *C. elegans* genome sequence. If `wget` doesn't work for you, you can always you can always re-download the genome (like you can do with all model genomes) by opening Firefox & head to [ftp://ftp.ensembl.org/pub/release-90/fasta/caenorhabditis_elegans/](ftp://ftp.ensembl.org/pub/release-90/fasta/caenorhabditis_elegans/).  
 
-For todays tutorial, we've given you just the sequence of chrI.
+For today's tutorial, we've given you just the sequence of chrI.
 It may have been accidentally saved as the file `WGS` so if you have a file called `WGS` and can't see this file call an instructor over.
 
 ```
@@ -47,7 +47,7 @@ We should also inspect the help page for bwa index which we will use to build th
 bwa index
 ```
 
-Using this particular process you can usually just run the command on the fasta file and the index will be called by the same filename.  However in this case, we will name the index "Celegans_chrI" by using the `-p` flag/parameter Now that we’ve had a look, type to following command which will take a few minutes to run.
+Using this particular process you can usually just run the command on the fasta file and the index will be called by the same file-name.  However in this case, we will name the index "Celegans_chrI" by using the `-p` flag/parameter Now that we’ve had a look, type to following command which will take a few minutes to run.
 
 ```
 bwa index ~/WGS/chrI.fa -p Celegans_chrI

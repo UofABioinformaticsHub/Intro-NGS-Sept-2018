@@ -1,17 +1,12 @@
-* TOC
-{:toc}
 
 # Key File Types
+{:.no_toc}
 
 Before we move on to sequencing technologies, let's have look at a few important file types that you're likely to come across.
 
-- bed
-- gtf / gff
-- vcf
-- fasta
-- fastq
-- sam
-- bam
+* TOC
+{:toc}
+
 
 ## BED Files
 
