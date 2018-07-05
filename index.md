@@ -8,6 +8,10 @@ Room 450
 The Braggs   
 University of Adelaide
 
+# Computer Setup
+
+[Setup Instructions](install/setup)
+
 # Course Material
 
 - [1 Introduction](notes/Introduction)

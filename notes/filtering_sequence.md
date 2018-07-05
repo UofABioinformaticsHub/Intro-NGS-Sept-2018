@@ -59,11 +59,28 @@ The command above is quite long and contains multiple unix commands that are sep
 | `sort -nr` | sort the sequences and reverse the order |
 | `head -n10` | Print the top 10 |
 
-Our real barcodes are actually in a file called barcodes_R1.txt. Unfortunately, sabre only runs with uncompressed data, so to run this program we'll need to ungzip our fastq files.
+Our real barcodes are actually in a file called barcodes_R1.txt. Unfortunately, `sabre` only runs with uncompressed data, so to run this program we'll need to ungzip our fastq files.
 
 ```
 gunzip Run1_R1.fastq.gz
 gunzip Run1_R2.fastq.gz
+```
+
+Unfortunately, Steve forgot to install `sabre` on your VMs, so please copy & paste the following lines of code to install this tool.
+If you can, try figure our what each line is doing.
+
+```
+cd ~/Downloads
+git clone https://github.com/najoshi/sabre.git
+cd sabre
+make
+mv sabre ~/miniconda/bin
+cd ~/multiplexed/01_rawData/fastq
+```
+
+(OK, now we're back on track.)
+
+```
 sabre pe -m 1 -f Run1_R1.fastq -r Run1_R2.fastq -b ../../barcodes_R1.txt \
   -u unknown_barcode1.fastq -w unknown_barcode2.fastq
 ```
