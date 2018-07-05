@@ -5,10 +5,10 @@
 {:toc}
 
 For the *Introduction to Bash* workshops we ran everything on our own machines so we would all know how to access `bash` and all of the important tools after the workshop.
-Unfortunately, some of the tools we'll come across today are only available on Linux or OSX so we'll use a Virtual Machine (VM) which we have already placed all the data on and installed all the tools.
+Unfortunately, some of the tools we'll come across today are only available on Linux or OSX so we'll use a Virtual Machine (VM) which we have already placed all the data on, and installed all the tools.
 
-If you'd like to try installing all the tools locally and running the session please see below, however this may be a risky  exercise.
-If you're confident installing software, then do feel free as it may be a beneficial experience despite the challenges.
+If you'd like to try installing all the tools locally and running the session on your own laptop please see [below](#installing-software-locally), however this may be a slightly unpredictable exercise.
+If you are confident installing software, then do feel free as it may be a beneficial experience despite the challenges.
 
 ## Connecting to the VM
 
@@ -97,4 +97,4 @@ rm multiplexed.tar.gz
 mv barcodes_R1.txt ~/multiplexed
 ```
 
-Now you should be good to go
+Now you should be good to go! (Fingers crossed...)
