@@ -108,7 +108,7 @@ cd ~/WGS
 mkdir -p 02_trimmedData/fastq
 cutadapt -m 35 -q 20 -a CTGTCTCTTATACACATCT -A CTGTCTCTTATACACATCT \
     -o 02_trimmedData/fastq/SRR2003569_sub_1.fastq.gz -p 02_trimmedData/fastq/SRR2003569_sub_2.fastq.gz \
-    rawData/fastq/SRR2003569_sub_1.fastq.gz rawData/fastq/SRR2003569_sub_2.fastq.gz > cutadapt.log
+    01_rawData/fastq/SRR2003569_sub_1.fastq.gz 01_rawData/fastq/SRR2003569_sub_2.fastq.gz > cutadapt.log
 ```
 
 #### Question
