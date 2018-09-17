@@ -33,10 +33,8 @@ In this course, we will introduce the key file types used in genomic analyses, i
 
 Today your helpers will be
 
-- Steve Pederson, Hien To (Bioinformatics Hub)
+- Steve Pederson (Bioinformatics Hub)
 - Jimmy Breen (Bioinformatics Hub / SAHMRI)
-- Terry Bertozzi (SA Museum)
-- Justin Bogias, Awais Choudhry, Chris Ward
 
 ## Recommendations For Working
 
@@ -44,6 +42,9 @@ In the following pages, we strongly encourage you to manually type all commands.
 The mistakes you will inevitably make will actually be important learning steps.
 Additionally, in your work beyond today, you will probably not have any instructions to follow.
 The experience of typing these commands will equip you for future work far better than if you simply copy & paste.
+
+Some non-compulsory sections are also included and we have indicated these with the phrase **Advanced material**.
+Skipping these sections will not disadvantage you at all, as these only proved aditional information for those working more quickly or with a little prior experience.
 
 
 

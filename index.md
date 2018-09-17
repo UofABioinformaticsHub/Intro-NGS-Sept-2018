@@ -4,7 +4,7 @@
 
 ## Presented by the Bioinformatics Hub <br> University of Adelaide
 
-Sept 6, 2018  
+Sept 27, 2018  
 9am - 5pm  
 Room 450  
 The Braggs   
@@ -18,7 +18,7 @@ University of Adelaide
 
 Please connect using your University of Adelaide login.
 If you don't have one, please connect using the UofA-Guest network.
-Today's password is `pencilhold`
+Today's password is 
 
 # Course Material
 

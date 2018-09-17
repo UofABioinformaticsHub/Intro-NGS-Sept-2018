@@ -2,10 +2,49 @@
 # Key File Types
 {:.no_toc}
 
-Before we move on to sequencing technologies, let's have look at a few important file types that you're likely to come across.
+Before we move on to sequencing technologies, let's have look at a few important file types & methods that you're likely to come across.
 
 * TOC
 {:toc}
+
+## Genome Browsers
+
+### UCSC
+
+Later today we'll use a genome broswer running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
+Click [this link](http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A11102837%2D11267747&hgsid=690299847_w2EtEiD6JAZeB5jX6o9m02x2hGaI) and you should see a slightly intimidating screen full of information.
+You'll be able to see:
+
+1. Genes with their transcript structure at the top, along with their position on the genome, as defined by GENCODE
+2. Refseq-based gene models
+3. OMIM alleles
+4. Gene expression from multiple tissues
+5. A whole lot of other information...
+
+Once you've got a handle on what's there, locate the `hide all` button and click that, which will just give the genomic region with no track information.
+We can turn on a huge variety of "*tracks*" which contain genomic informationthat we may care about.
+Let's start by turning on the GENCODE transcripts again.
+
+Under the **Genes and Gene Predictions** section, find the *GENCODE v24* drop-down menu and click the arrow next to the word 'hide'.
+Change this to 'full' and hit one of the `refresh` button you can see scattered across the page.
+Now the transcripts will appear again in a less cluttered display.
+Under the hood, the browser has used this information saved as a `BED` file, which enables us to define genomic regions in a conventient *tab-delimited* format.
+We'll look at these in more detail soon.
+
+As well as showing the transcript structure, we can also show simple genomic features like a SNP, so let's look for the **Variation** region down the page a little, then set the *Common SNPs(150)* track to *full* as well.
+To make these changes appear, hit a *refresh* button again and the browser will now have this track showing.
+This is pretty crazy, so we can condense this using the *pack* option. 
+Try this then the *dense* and *squish* options to see what difference they all make.
+
+If you haven't already tried it, you can click on any of the genomic features and you'll be taken to a page containing all the key information about that feature.
+You can also drag your mouse over regions to zoom in, and can zoom out using the buttons at the top of the page.
+Type the name of your favourite gene into the search box and you'll be able to find your way to that.
+If you can't think of one, just enter *IL2RA* and you'll be taken to a page **full** of choices.
+As we're using GENCODE 24, look for that list about half way down and select one of the isoforms you can see.
+This will take you back to the browser, but just showing the region for the selected transcript.
+
+Now we've had a brief exploration of the browser, let's look at some file types which will enable us to upload custom features, and which are useful an numerous stages during analysis using NGS data.
+
 
 
 ## BED Files
@@ -13,20 +52,29 @@ Before we move on to sequencing technologies, let's have look at a few important
 ### The basic format
 {:.no_toc}
 
-These are a common file type for uploading your own data to the UCSC browser if you'd like to add a custom track with your own genomic features, and can be imported into the IGV browser which we'll explore later in the session.
+These are a common file type for uploading your own data to the UCSC browser if you'd like to add a custom track with your own genomic features, and can also be imported into the IGV browser which we'll explore later in the session.
 This format is best used for genomic regions which all represent the same type of feature (e.g. genes, promoters, sequence motifs etc).
 They're also able to be used as input for numerous analytic tools, so are very useful to know about.
 A full description of the format is available at: https://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
-The basic structure is a tab-separated file, with a minimum of three columns giving the Chromosome (`chrom`), start (`chromStart`) and end (`chromEnd`) positions.
+`BED` files are also very commonly used for interacting with a variety of NGS-related tools.
+We can use these to just obtain a subset of alignments from a larger file, to restrict variant calling to specific regions, etc..
+
+The basic structure is a tab-separated file, with a minimum of **three mandatory columns** giving the Chromosome (`chrom`), start (`chromStart`) and end (`chromEnd`) positions.
 In this way we can simply define genomic regions of interest that we have found in our analysis, and can visualise them.
 As with the vast majority of the file types we'll come across, each line needs to have the same number of fields, with the exception of any header lines.
 Unlike other file types, header lines in bed files **do not** start with a comment character but can only begin with the words `browser` or `track`.
 
 Let's start by forming our own bed file.
+
+```
+cd ~
+touch gk.bed
+```
+
 The following two regions were obtained as enriched for FOXP3 binding within the gene *GK*[1](https://www.ncbi.nlm.nih.gov/pubmed/20554955).
-Ensuring the data is tab-delimited, save the following as `gk.bed`.
-You can use the text editor `gedit`, which we have installed on your VMs to do this.
+Now we've created an empty file (`touch gk.bed`) we can place our two important binding sites inside this file.
+You can use the text editor `gedit` (`gedit gk.bed &`), which we have installed on your VMs to do this, or `nano` (`nano gk.bed`) if you prefer working in the terminal environment.
 
 ```
 track name="FOXP3 sites"
@@ -34,7 +82,7 @@ chrX	30671901	30672803
 chrX	30691567	30692445
 ```
 
-1. Head to the UCSC browser at https://genome.ucsc.edu/cgi-bin/hgGateway. Ensure you are using the `hg38` genome build.
+1. Now you've saved the file, head to the UCSC browser at https://genome.ucsc.edu/cgi-bin/hgGateway. Ensure you are using the `hg38` genome build.
 2. Enter the gene GK in the `Position/Search Term` text box, then just click on any of the links returned by the search.
 3. Find the button labelled `hide all` and click it.
 4. Under `Genes and Gene Predictions`, find `GENCODE v24` and select `full` using the drop-down menu
@@ -48,7 +96,7 @@ Now we have this view:
 
 This will give a additional track on the browser which shows these two regions.
 
-### Additional Columns
+### Additional Columns (Advanced material)
 {:.no_toc}
 
 In addition to the mandatory columns, there are 9 optional fields which are able to be added.
@@ -57,9 +105,9 @@ The order of these is fixed and these are:
 - `name`: The name of the 'feature'
 - `score`: An integer between 0 and 1000. This can be used to control the the darkness of the greyscale for each region.
 - `strand`: Can only take the values '.', '+' or '-'
-- `thickStart`: If you wish to have a feature with thick & thin sections, this sets these values
+- `thickStart`: If you wish to have a feature with thick & thin sections, such as exons & introns, this sets these values
 - `thickEnd`: Same as above...
-- `itemRGB`: Set the colour of the feature in RGB format. This must be three integers between 0 and 255, separated by commas. Requires `itemRgb="On"` to be supplied in the header line.
+- `itemRGB`: Set the colour of the feature in RGB format. This must be three integers between 0 and 255, separated by commas. These correspond directly to the amount of red, green or blue so `255,0,0` would correspond to red at maximum, with blue and green off. This also requires `itemRgb="On"` to be supplied in the header line.
 - `blockCount`, `blockSizes` and `blockStarts`: These are used to define exons (or other sub-regions) within a larger region.
 
 Let's add some colours to our two FOXP3 regions.
@@ -80,10 +128,8 @@ There can be a little confusion about GFF and GTF files and these share some sim
 GFF (General Feature Format) files have version2 and version3 formats, which are slightly different.
 Today, we'll just look at GTF (General Transfer Format) files, which are best considered as GFF2.2, as restrictions are placed on the type of entries that can be placed in some columns.
 
-A notable change made in the move to the GFF3 format is the ability to nest features (such as exons within genes).
-
 Whilst BED files are generally for showing all the locations of a single type of feature, multiple feature types can be specified within one of these files.
-Again, like BED files, fields are tab-separated with no line provided which describes column names.
+Again, like BED files, fields are tab-separated with no line provided which gives the column names.
 These are fixed by design, and as such are not required.
 
 1. **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seqname must be one used within Ensembl, i.e. a standard chromosome name or an Ensembl identifier such as a scaffold ID, without any additional content such as species or assembly. See the example GFF output below.
@@ -98,7 +144,7 @@ These are fixed by design, and as such are not required.
     + **gene_id** *value*
     + **transcript_id** *value*
 
-Notice that there's no real way to represent our FOXP3 sites as a GTF file!
+Notice that there's *no real way to represent our FOXP3 sites as a GTF file*!
 This format is really designed for gene-centric features as seen in the 3rd column.
 An example is given below.
 Also note that header rows are not controlled, but must start with the comment character `#`
@@ -154,6 +200,7 @@ We'll spend some time exploring these later today.
 
 ## SAM Files
 
-These are plain text Sequence AlignMent files, which we will also spend some time looking at later today.
+These are plain text **S**equence **A**lign**M**ent files, which we will also spend some time looking at later today.
 The binary version of a SAM file is known as a BAM file, and is the plain text information converted to the more computer-friendly binary format.
 This usually results in a size reduction of around 5-10 fold, and BAM files are able to be processed much more quickly by NGS tools.
+We'll also have a good look at these during the course of the day.
