@@ -5,7 +5,7 @@
 
 ## The SAM/BAM file format
 
-Reads that have been to a reference are no longer stored in fastq format but are stored in either SAM or BAM format.
+Reads that have been aligned to a reference are no longer stored in fastq format but are stored in either SAM or BAM format.
 These two formats are virtually identical, however the SAM format is a text file which is easily readable to human eyes, whilst a BAM file is the same information converted to binary.
 This conversion means that file sizes are smaller, and that computational processes can be performed more efficiently.
 Typically, we work with BAM files as these provide gains in storage space & analytic speed.
@@ -32,7 +32,7 @@ To view this header we use
 samtools view SRR2003569_chI.bam | head
 ```
 
-As this data can easily spill across lines, it might be helpful to maximise your terminal to see the complete line structure.
+As this data can easily spill across lines, it might be helpful to maximise your terminal to try and see the complete line structure.
 
 ## The SAM/BAM data structure
 
@@ -113,6 +113,8 @@ You can pull out highly specific combinations of alignments should you so choose
 These give useful information about the type of alignment that has been performed on the read.
 In the first few reads we called up earlier, most had the value `..M` where `..` is some number.
 These are the perfect Matches, where the sequence has aligned exactly.
-The other abbreviations in common use are I (insertion), D (deletion) & S(substitution).
+The other abbreviations in common use are I (insertion), D (deletion) & S (soft-clipping).
+Soft-clipping is a strategy used by aligners to mask mismatches, so these are often analagous to substitutions.
+Hard-clipping (H) is an alternative strategy, but the difference between the two is beyond the scope of today.
 
-What is the interpretation of the first `CIGAR` string in your set of alignments?
+*What is the interpretation of the first `CIGAR` string in your set of alignments?*

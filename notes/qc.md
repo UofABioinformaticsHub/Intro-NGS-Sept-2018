@@ -152,7 +152,7 @@ Another interesting report is available at http://www.bioinformatics.babraham.ac
 Whilst the quality scores generally look pretty good for this one, see if you can find a point of interest in this data.
 This is a good example, of why just skimming the first plot may not be such a good idea.
 
-## Working With Larger Datasets
+## Working With Larger Datasets (Advanced Material)
 
 In our dataset of two samples it is quite easy to think about the whole experiment & assess the overall quality.
 

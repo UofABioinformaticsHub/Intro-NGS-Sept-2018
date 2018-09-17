@@ -20,8 +20,13 @@ samtools sort SRR2003569_chI.bam SRR2003569_chI.sorted
 This helps the variant caller to run the calling algorithm efficiently and prevents additional time to be allocated to going back and forth along the genome. This is command for most NGS downstream programs, such as RNA gene quantification and ChIPseq peak calling.
 
 ---
-**Note: Additional Filtering**
-Ideally, before we start calling variants, there is a level of duplicate filtering that needs to be carried out to ensure accuracy of variant calling and allele frequencies. The definition of read duplicates can differ depending on which program you use, but usually it means 'a read in an alignment that has exactly the same start and end position'. The `samtools` documentation states "if multiple read pairs have identical external coordinates, only retain the pair with highest mapping quality". While this seems fine for a simple sequencing experiment, this method has drawbacks for large sequencing projects that may use multiple libraries etc. A more robust duplicate removal program such as [MarkDuplicates from Picard Tools](http://broadinstitute.github.io/picard/) is commonly used. Below is an example of what you usually need to run to filter duplicates, however **we'll skip this step today**.
+
+**Note: Additional Filtering** (Advanced Material)
+
+Ideally, before we start calling variants, there is a level of duplicate filtering that needs to be carried out to ensure accuracy of variant calling and allele frequencies. The definition of read duplicates can differ depending on which program you use, but usually it means 'a read in an alignment that has exactly the same start and end position', and given that we are usually randomly fragmenting our source material, this can serve as a marker of two reads coming from the same piece of RNA/DNA.
+As this is not biological signal, but a techincal artefact these can be important to remove.
+The `samtools` documentation states "if multiple read pairs have identical external coordinates, only retain the pair with highest mapping quality". 
+While this seems fine for a simple sequencing experiment, this method has drawbacks for large sequencing projects that may use multiple libraries etc. A more robust duplicate removal program such as [MarkDuplicates from Picard Tools](http://broadinstitute.github.io/picard/) is commonly used. Below is an example of what you usually need to run to filter duplicates, however **we'll skip this step today**.
 
 ```
 # Remove duplicates the samtools way
@@ -89,6 +94,7 @@ I       437     .       T       A       26.7335 .       AB=0.444444;ABP=3.25157;
 
 
 ### Questions
+{:.no_toc}
 
 1. How many variants were called in region ChrI:1-1Mb?
 
@@ -139,6 +145,7 @@ The `bcftools view` commands gives a lot of additional filtering options.
 
 
 ### Questions
+{:.no_toc}
 
 1. Use the `bcftools view` or `bcftools filter` command to count the number of:
    a. SNPs
@@ -146,7 +153,7 @@ The `bcftools view` commands gives a lot of additional filtering options.
 
 2. Depth is also a common filtering characteristic that many people use to remove low confidence variants. If you have low coverage of a variant, it lowers your ability to accurately call a heterozygotic site (especially if you are confident that you sequenced the sample the an adequate depth!). Find the number of SNPs that have a depth that is equal to or greater than 30 and a quality that is greater than 30.
 
-## Genomic VCF
+## Genomic VCF (Advanced Material)
 
 While we can identify variants easily, what happens with the other regions? Do we know that there is no variants in regions that are not called? What happens if there is low genome sequence coverage in those regions? How can we be sure that we are not identifying variants in those regions?
 
