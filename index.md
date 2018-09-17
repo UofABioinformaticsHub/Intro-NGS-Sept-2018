@@ -1,10 +1,10 @@
 # Introduction To NGS Data
 
-## https://big-sa.github.io/Intro-NGS-July-2018/
+## https://big-sa.github.io/Intro-NGS-Sept-2018/
 
 ## Presented by the Bioinformatics Hub <br> University of Adelaide
 
-July 6, 2018  
+Sept 6, 2018  
 9am - 5pm  
 Room 450  
 The Braggs   
