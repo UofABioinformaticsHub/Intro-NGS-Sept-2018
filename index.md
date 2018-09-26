@@ -18,7 +18,7 @@ University of Adelaide
 
 Please connect using your University of Adelaide login.
 If you don't have one, please connect using the UofA-Guest network.
-Today's password is 
+Today's password is `trainroof`
 
 # Course Material
 
