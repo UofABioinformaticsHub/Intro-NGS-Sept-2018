@@ -82,7 +82,7 @@ chrX	30671901	30672803
 chrX	30691567	30692445
 ```
 
-1. Now you've saved the file, head to the UCSC browser at https://genome.ucsc.edu/cgi-bin/hgGateway. Ensure you are using the `hg38` genome build.
+1. Now you've saved the file, head to the UCSC browser at [https://genome.ucsc.edu/cgi-bin/hgGateway](https://genome.ucsc.edu/cgi-bin/hgGateway). Ensure you are using the `hg38` genome build.
 2. Enter the gene GK in the `Position/Search Term` text box, then just click on any of the links returned by the search.
 3. Find the button labelled `hide all` and click it.
 4. Under `Genes and Gene Predictions`, find `GENCODE v24` and select `full` using the drop-down menu
