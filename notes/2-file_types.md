@@ -161,7 +161,7 @@ Also note that header rows are not controlled, but must start with the comment c
 381 Twinscan  stop_codon   708   710   .   +   0  gene_id "001"; transcript_id "001.1";
 ```
 
-warn on GFF2 (GTF) v GFF3 differences
+**Note**: People variously use GFF and GTF to talk about GFF version 2, and GFF to talk about GFF version 3. GFF2 is not compatible with GFF3, so make sure you have the correct file format if you are given a GFF file. There are conversion tools available to inter-covert them, they are rarely reliable.
 
 ## VCF Files
 
