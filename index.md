@@ -19,8 +19,7 @@ Today's password is `trainroof`
 - [2 File Types](notes/2-file_types)
 - [3 What Is NGS Data](notes/3-raw_data)
 - [4 Quality Control](notes/4-quality_control)
-- [5 Trimming And Filtering Data](notes/5-filtering_sequence)
-- [5.9 Start aligner]
+- [5 Trimming and Filtering Data](notes/5-filtering_sequence)
 - [6 Aligning Data](notes/6-alignment)
 - [7 Working with Alignments](notes/7-working_with_alignments)
 
@@ -34,9 +33,9 @@ All sessions will be held in The Braggs, Room 450
 
 | Date | Time | Main Topics |
 | ---------- |---------- | ---------- |
-| Wed, April 17th |  9:00am-10:30pm  | 1,2,3 |
-| Wed, April 17th | 11:00pm-12:30pm  | 4, 5, 5.9? |
-| Wed, April 17th | 13:30am-15:00pm  | 6, 7 |
+| Wed, April 17th |  9:00am-10:30pm  | File and data types |
+| Wed, April 17th | 11:00pm-12:30pm  | Quality control and trimming reads |
+| Wed, April 17th | 13:30am-15:00pm  | Aligning and alignments |
 | Wed, April 17th | 15:30pm-17:00pm  | RNASeq workflow |
 
 [Back To Top](#introduction-to-ngs-data)

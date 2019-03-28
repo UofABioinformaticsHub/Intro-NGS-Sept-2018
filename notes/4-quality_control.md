@@ -5,7 +5,7 @@
 
 ## Using FastQC
 
-A common tool for checking the quality of a fastq file is the program FastQC.
+A common tool for checking the quality of a FASTQ file is the program FastQC.
 As with all programs on the command line, we need to see how it works before we use it.
 The following command will open the help file in the less pager which we used earlier.
 To navigate through the file, use the `<spacebar>` to move forward a page, `<b>` to move back a page & `<q>` to exit the manual.
@@ -66,10 +66,21 @@ firefox *html &
 The left hand menu contains a series of click-able links to navigate through the report, with a quick guideline about each section given as a tick, cross or exclamation mark.
 Two hints which may make your inspection of these files easier are:
 
-1. To zoom out in firefox use the shortcut `Ctrl-`. Reset using `Ctrl0` and zoom in using `Ctrl+`
+1. To zoom out in firefox use the shortcut <kbd>Ctrl</kbd>+<kbd>-</kbd>. Reset using <kbd>Ctrl</kbd>+<kbd>0</kbd> and zoom in using <kbd>Ctrl</kbd>+<kbd>+</kbd>
 2. You can open these directly from a traditional directory view by double clicking on the .html file.
 
-If your terminal seems busy after you close firefox, use the `Ctrl C` shortcut to stop whatever is keeping it busy.
+If your terminal seems busy after you close firefox, use the <kbd>Ctrl</kbd>+<kbd>C</kbd> shortcut to stop whatever is keeping it busy.
+
+Things to reasonably ignore in a FastQC report:
+
+1. per tile sequence quality
+2. per sequence quality scores
+3. initial few bases of per base sequence content
+4. per base N content
+5. usually sequence length distribution
+
+The things that you can ignore or will want to know depends on what your experiment is and how the data will be used.
+
 
 #### Questions
 {:.no_toc}
@@ -97,19 +108,26 @@ This is the first plot that bioinformaticians will look at for making informed d
 
 We will deal with trimming the reads in a later section, but start to think about what you should do to the reads to ensure the highest quality in your final alignment & analysis.
 
-**Per Tile Sequence Quality**
+**Per Tile Sequence Quality**<details>
 This section just gives a quick visualisation about any physical effects on sequence quality due to the tile within the each flowcell or lane.
 For the first file, you will notice an even breakdown in the quality of sequences near the end of the reads across all tiles.
 In our second QC report, you will notice a poor quality around the 25th base in the 2nd (or 3rd) tile.
 Generally, this would only be of note if drilling deeply to remove data from tiles with notable problems.
 Most of the time we don’t factor in spatial effects, unless alternative approaches fail to address the issues we are dealing with.
+</details>
 
-**Per Sequence Quality Scores** This is just the distribution of average quality scores for each sequence.
+**Per Sequence Quality Scores**<details>
+This is just the distribution of average quality scores for each sequence.
 There’s not much of note for us to see here.
+</details>
 
-**Per Base Sequence Content** This will often show artefacts from barcode sequences or adapters early in the reads, before stabilising to show a relatively even distribution of the bases.
+**Per Base Sequence Content**<details>
+This will often show artefacts from barcode sequences or adapters early in the reads, before stabilising to show a relatively even distribution of the bases.
+</details>
 
-**Sequence Length Distribution** This shows the distributions of sequence lengths in our data. Here we have sequences that are all the same lengths, however if the length of your reads is vital (e.g. smallRNA data), then this can also be an informative plot.
+**Sequence Length Distribution**<details>
+This shows the distributions of sequence lengths in our data. Here we have sequences that are all the same lengths, however if the length of your reads is vital (e.g. smallRNA data), then this can also be an informative plot.
+</details>
 
 **Sequence Duplication Levels** This plot shows about what you’d expect from a typical NGS experiment.
 There are a few duplicated sequences (rRNA, highly expressed genes etc.) and lots of unique sequences represented the diverse transcriptome.
@@ -120,7 +138,7 @@ This is only calculated on a small sample of the library for computational effic
 **Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (i.e. inserts) then the sequencing will run into the adapters.
 If you have used custom adapters, you may need to supply them to `FastQC` as this only searches for common adapter squences.
 
-**Kmer Content**
+***k*-mer Content**
 This plot was not particularly informative and has been dropped in FastQC >= 0.11.6.
 Statistically over-represented `k`-mers can be seen here & often they will overlap.
 In our first plot, the black & blue `k`-mers are the same motif, just shifted along one base.

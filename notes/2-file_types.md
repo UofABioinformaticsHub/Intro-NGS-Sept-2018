@@ -8,14 +8,19 @@ Before we move on to sequencing technologies, let's have look at a few important
 
 ## Genome Browsers
 
+Genome browsers are applications that provide a way to view, explore and compare genomic information in a graphical environment.
+
+Genome browsers enable researchers to visualize and browse entire genomes with annotated data including gene prediction and structure, proteins, expression, regulation, variation, comparative analysis, and so on. Annotated data is usually from multiple diverse sources. They differ from ordinary biological databases in that they display data in a graphical format, with genome coordinates on one axis and the location of annotations indicated by a space-filling graphic to show the occurrence of genes and other features[¹](https://en.wikipedia.org/w/index.php?title=Genome_browser&oldid=889818322).
+
 ### UCSC
 
-Later today we'll use a genome broswer running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
+Later today we'll use a genome browser running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
 Click [this link](http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A11102837%2D11267747&hgsid=690299847_w2EtEiD6JAZeB5jX6o9m02x2hGaI) and you should see a slightly intimidating screen full of information.
+
 You'll be able to see:
 
 1. Genes with their transcript structure at the top, along with their position on the genome, as defined by GENCODE
-2. Refseq-based gene models
+2. RefSeq-based gene models
 3. OMIM alleles
 4. Gene expression from multiple tissues
 5. A whole lot of other information...
@@ -27,7 +32,7 @@ Let's start by turning on the GENCODE transcripts again.
 Under the **Genes and Gene Predictions** section, find the *GENCODE v24* drop-down menu and click the arrow next to the word 'hide'.
 Change this to 'full' and hit one of the `refresh` button you can see scattered across the page.
 Now the transcripts will appear again in a less cluttered display.
-Under the hood, the browser has used this information saved as a `BED` file, which enables us to define genomic regions in a conventient *tab-delimited* format.
+Under the hood, the browser has used this information saved as a `BED` file, which enables us to define genomic regions in a convenient *tab-delimited* format.
 We'll look at these in more detail soon.
 
 As well as showing the transcript structure, we can also show simple genomic features like a SNP, so let's look for the **Variation** region down the page a little, then set the *Common SNPs(150)* track to *full* as well.
@@ -51,12 +56,16 @@ Now we've had a brief exploration of the browser, let's look at some file types 
 ### The basic format
 {:.no_toc}
 
+basic intro of format
+commented header = see `#` symbol from BASH no need for much more
+
+
 These are a common file type for uploading your own data to the UCSC browser if you'd like to add a custom track with your own genomic features, and can also be imported into the IGV browser which we'll explore later in the session.
 This format is best used for genomic regions which all represent the same type of feature (e.g. genes, promoters, sequence motifs etc).
 They're also able to be used as input for numerous analytic tools, so are very useful to know about.
 A full description of the format is available at: https://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
-`BED` files are also very commonly used for interacting with a variety of NGS-related tools.
+BED files are also very commonly used for interacting with a variety of NGS-related tools.
 We can use these to just obtain a subset of alignments from a larger file, to restrict variant calling to specific regions, etc..
 
 The basic structure is a tab-separated file, with a minimum of **three mandatory columns** giving the Chromosome (`chrom`), start (`chromStart`) and end (`chromEnd`) positions.
@@ -98,6 +107,9 @@ This will give a additional track on the browser which shows these two regions.
 ### Additional Columns (Advanced material)
 {:.no_toc}
 
+
+extensible format, but can just say that or move elsewhere see here!
+
 In addition to the mandatory columns, there are 9 optional fields which are able to be added.
 The order of these is fixed and these are:
 
@@ -129,7 +141,7 @@ Today, we'll just look at GTF (General Transfer Format) files, which are best co
 
 Whilst BED files are generally for showing all the locations of a single type of feature, multiple feature types can be specified within one of these files.
 Again, like BED files, fields are tab-separated with no line provided which gives the column names.
-These are fixed by design, and as such are not required.
+These are fixed by design, and as such explicit column names are not required.
 
 1. **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seqname must be one used within Ensembl, i.e. a standard chromosome name or an Ensembl identifier such as a scaffold ID, without any additional content such as species or assembly. See the example GFF output below.
 2. **source** - name of the program that generated this feature, or the data source (database or project name)
@@ -157,9 +169,11 @@ Also note that header rows are not controlled, but must start with the comment c
 381 Twinscan  stop_codon   708   710   .   +   0  gene_id "001"; transcript_id "001.1";
 ```
 
+warn on GFF2 (GTF) v GFF3 differences
+
 ## VCF Files
 
-The most hated format is a VCF file, which stands for *Variant Call Format*, but is more accurately known as *Very Confusing Format*.
+The most **hated** format is a VCF file, which stands for *Variant Call Format*, but is more accurately known as *Very Confusing Format*.
 Again, the general structure is header rows (beginning with the double comment symbol `##`), followed by tab-separated columns with the actual data.
 In this case, column names are provided directly about the data in a line starting with a single comment character (`#`).
 
@@ -199,7 +213,7 @@ We'll spend some time exploring these later today.
 
 ## SAM Files
 
-These are plain text **S**equence **A**lign**M**ent files, which we will also spend some time looking at later today.
+These are plain text **S**equence **A**lignment/**M**ap files, which we will also spend some time looking at later today.
 The binary version of a SAM file is known as a BAM file, and is the plain text information converted to the more computer-friendly binary format.
 This usually results in a size reduction of around 5-10 fold, and BAM files are able to be processed much more quickly by NGS tools.
 We'll also have a good look at these during the course of the day.
