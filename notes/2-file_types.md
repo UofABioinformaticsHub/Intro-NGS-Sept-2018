@@ -147,6 +147,8 @@ These are fixed by design, and as such explicit column names are not required.
     + **gene_id** *value*
     + **transcript_id** *value*
 
+<!--FIXME(kortschak): What does "mandatory" but may be left blank mean? -->
+
 Notice that there's *no real way to represent our FOXP3 sites as a GTF file*!
 This format is really designed for gene-centric features as seen in the 3rd column.
 An example is given below.
