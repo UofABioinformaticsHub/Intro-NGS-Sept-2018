@@ -72,15 +72,7 @@ Unlike other file types, header lines in bed files **do not** start with a comme
 The header lines are important in the context of genome browser custom annotation tracks, but most external tools will not tolerate their presence.
 
 Let's start by forming our own bed file.
-
-```
-cd ~
-touch gk.bed
-```
-
-The following two regions were obtained as enriched for FOXP3 binding within the gene *GK*[1](https://www.ncbi.nlm.nih.gov/pubmed/20554955).
-Now we've created an empty file (`touch gk.bed`) we can place our two important binding sites inside this file.
-You can use the text editor `gedit` (`gedit gk.bed &`), which we have installed on your VMs to do this, or `nano` (`nano gk.bed`) if you prefer working in the terminal environment.
+First `cd ~` to change directory to home and then use `nano` (`nano gk.bed`) or another text editor to create a file that looks like this.
 
 ```
 track name="FOXP3 sites"
@@ -88,7 +80,9 @@ chrX	30671901	30672803
 chrX	30691567	30692445
 ```
 
-1. Now you've saved the file, head to the UCSC browser at [https://genome.ucsc.edu/cgi-bin/hgGateway](https://genome.ucsc.edu/cgi-bin/hgGateway). Ensure you are using the `hg38` genome build.
+These two regions were obtained as [enriched for FOXP3 binding within the gene *GK*](https://www.ncbi.nlm.nih.gov/pubmed/20554955).
+
+1. Now you've saved the file (see the bash workshop text editor [notes](https://uofabioinformaticshub.github.io/BASH-Intro/notes/3_sed_awk_grep.html#command-line-interface-cli-text-editors-for-small-ish-files)), head to the UCSC browser at [https://genome.ucsc.edu/cgi-bin/hgGateway](https://genome.ucsc.edu/cgi-bin/hgGateway). Ensure you are using the `hg38` genome build.
 2. Enter the gene GK in the `Position/Search Term` text box, then just click on any of the links returned by the search.
 3. Find the button labelled `hide all` and click it.
 4. Under `Genes and Gene Predictions`, find `GENCODE v24` and select `full` using the drop-down menu
