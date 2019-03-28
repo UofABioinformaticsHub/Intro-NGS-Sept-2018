@@ -57,10 +57,6 @@ Now we've had a brief exploration of the browser, let's look at some file types 
 ### The basic format
 {:.no_toc}
 
-basic intro of format
-commented header = see `#` symbol from BASH no need for much more
-
-
 These are a common file type for uploading your own data to the UCSC browser if you'd like to add a custom track with your own genomic features, and can also be imported into the IGV browser which we'll explore later in the session.
 This format is best used for genomic regions which all represent the same type of feature (e.g. genes, promoters, sequence motifs etc).
 They're also able to be used as input for numerous analytic tools, so are very useful to know about.
@@ -73,6 +69,7 @@ The basic structure is a tab-separated file, with a minimum of **three mandatory
 In this way we can simply define genomic regions of interest that we have found in our analysis, and can visualise them.
 As with the vast majority of the file types we'll come across, each line needs to have the same number of fields, with the exception of any header lines.
 Unlike other file types, header lines in bed files **do not** start with a comment character but can only begin with the words `browser` or `track`.
+The header lines are important in the context of genome browser custom annotation tracks, but most external tools will not tolerate their presence.
 
 Let's start by forming our own bed file.
 
