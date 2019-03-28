@@ -183,8 +183,8 @@ Important things to note are:
 
 Most of us have seen these, and the basic format is very simple.
 Information about a sequence is placed after a `>` symbol, and these can occur throughout the file, indicating the start of a new sequence.
-Following these lines are simple sequence data to a width of either 70 or 80 characters.
-Sequence data can be DNA, RNA or Amino Acid data
+Following the description line are lines of sequence data typically 50 to 80 characters long.
+Sequence data can be DNA, RNA or Amino Acid data and may be upper or lower case.
 
 ```
 >HSGLTH1 Human theta 1-globin gene fragment
