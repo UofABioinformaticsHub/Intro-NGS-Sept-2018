@@ -179,7 +179,7 @@ Important things to note are:
 - *Sample level* information follows the `FORMAT` column
 - The header rows are called *Meta-information* rows, and describe the coding used in each field via a series of tags.
 
-## Fasta Files
+## FASTA Files
 
 Most of us have seen these, and the basic format is very simple.
 Information about a sequence is placed after a `>` symbol, and these can occur throughout the file, indicating the start of a new sequence.
@@ -198,9 +198,9 @@ CCGGGCGCTGGTGCGCGCCCTGTGGAAGAA
 This is the format genomes are provided in by all genomic repositories such as Ensembl, NCBI and the UCSC.
 Each chromosome is specified by the header, with the entire sequence following.
 
-## Fastq Files
+## FASTQ Files
 
-These are the extension of fasta files which we usually obtain as output from our sequencing runs.
+These are the extension of FASTA files which we usually obtain as output from our sequencing runs.
 We'll spend some time exploring these later today.
 
 ## SAM Files
