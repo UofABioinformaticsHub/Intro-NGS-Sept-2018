@@ -67,7 +67,7 @@ They're also able to be used as input for numerous analytic tools, so are very u
 A full description of the format is available at: https://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
 BED files are also very commonly used for interacting with a variety of NGS-related tools.
-We can use these to just obtain a subset of alignments from a larger file, to restrict variant calling to specific regions, etc..
+We can use these to just obtain a subset of alignments from a larger file, to restrict variant calling to specific regions, etc.
 
 The basic structure is a tab-separated file, with a minimum of **three mandatory columns** giving the Chromosome (`chrom`), start (`chromStart`) and end (`chromEnd`) positions.
 In this way we can simply define genomic regions of interest that we have found in our analysis, and can visualise them.
