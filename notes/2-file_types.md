@@ -13,6 +13,7 @@ Genome browsers are applications that provide a way to view, explore and compare
 Genome browsers enable researchers to visualize and browse entire genomes with annotated data including gene prediction and structure, proteins, expression, regulation, variation, comparative analysis, and so on. Annotated data is usually from multiple diverse sources. They differ from ordinary biological databases in that they display data in a graphical format, with genome coordinates on one axis and the location of annotations indicated by a space-filling graphic to show the occurrence of genes and other features[¹](https://en.wikipedia.org/w/index.php?title=Genome_browser&oldid=889818322).
 
 ### UCSC
+{:.no_toc}
 
 Later today we'll use a genome browser running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
 Click [this link](http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A11102837%2D11267747&hgsid=690299847_w2EtEiD6JAZeB5jX6o9m02x2hGaI) and you should see a slightly intimidating screen full of information.
