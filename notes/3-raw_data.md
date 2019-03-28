@@ -23,7 +23,7 @@ Note that for paired and single-end reads, the yield appears quite different.
 Importantly, the same number of fragments are sequenced, with the difference being that reads are generated in a single direction only, or with the additional sequencing from the opposite end of the fragment.
 Illumina also consider that a single flow cell is suitable for a *single genome*, 12 exomes or *16 transcriptomes*, based on the size of the human genome.
 
-### Barcodes Vs Indexes
+### Barcodes vs Indexes
 
 In the video, you may have noticed an index sequence being mentioned which was within the sequencing primers \& adapters ligated to each fragment.
 Under this approach, a unique index is added to each sample during library preparation and these are used to identify which read came from which sample.
@@ -81,25 +81,6 @@ zcat SRR2003569_sub_2.fastq.gz | head -n8
 ```
 
 Here you will notice that the information in the identifier is identical to the first file we inspected, with the exception that there is a `/2` at the end.  This indicates that these reads are the second set in what are known as paired-end reads, as were introduced in the above video.  The two files will have this identical structure where the order of the sequences in one is identical to the order of the sequences in the other.  This way when they are read as a pair of files, they can be stepped through read-by-read & the integrity of the data will be kept intact.
-
-#### The Illumina Chastity Filter
-{:no_toc}
-
-It is also worth noting that the reads we’ve just glanced at come from a version of the Illumina casava pipeline which is \<1.8, and which is a relatively common format.
-The casava version really just describes how old the software on the Illumina machine is & we don’t choose this.
-For more recently generated reads where the casava software is \>1.8 of the casava, there is an additional field in the identifier which indicates whether a read would have failed an initial QC check.
-An example of this format would be:
-
-`@D5B4KKQ1:554:C4YHPACXX:4:1101:1084:2100 1:Y:0:`
-
-Note the “`Y`” in the final fields, which indicates this sequence would have failed QC.
-These low-quality reads were automatically removed in earlier versions of the pipeline and were omitted from the fastq file.
-However, they are now included by some sequence providers with this additional field indicated in the read identifier.
-Inspection of this line will enable you to find out whether you need to perform any additional filtering steps to remove low quality reads.
-When we generate FastQC reports in a minute, you'll also be alerted to their presence if the overall sequencing quality is unexpectedly low.
-The tool fastq illumina filter is designed to remove these reads for you & the tool, along with [usage instructions](http://cancan.cshl.edu/labmembers/gordon/fastq_illumina_filter/).
-
-We won't spend any further time on this today, but it is an important thing to be aware of.
 
 ### 2. The Sequence Read
 {:.no_toc}

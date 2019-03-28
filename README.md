@@ -1,1 +1,3 @@
-# Please go to https://big-sa.github.io/Intro-NGS-Sept-2018/
+# NGS-Intro
+
+Introduction to next generation sequencing analysis one day training sessions.

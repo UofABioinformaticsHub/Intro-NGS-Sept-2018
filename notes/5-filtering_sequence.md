@@ -18,68 +18,9 @@ Using today’s datasets, we will take one sequencing experiment hrough demultip
 3. **Remove Low Quality Bases**. This is usually done by our adapter removal tools, and can be performed by trimming:
     1. based on quality scores
     2. to a fixed length
-4. **Demultiplexing** (`sabre`, `fastq_multx` or `process_radtags`).
-5. **Alignment** to a reference (`bwa`, `bowtie2`, `STAR`)
-6. **Post-alignment QC** (`picard markDuplicates`, `IGV`)
+4. **Alignment** to a reference (`bwa`, `bowtie2`, `STAR`)
+5. **Post-alignment QC** (`picard markDuplicates`, `IGV`)
 
-
-## Demultiplexing
-
-In the previous section "Understanding NGS Data \& FASTQ Format" we discussed the difference between an *index* and a *barcode*. If you use an indexed adapter to distinguish samples on an Illumina sequencing run, the demultiplexing is *usually* done on the sequencing machine. However, sometimes it makes sense to use a barcode (or sometimes called "inline barcode"), to further multiplex samples onto one sequencing run.
-
-While barcodes can be incredibly useful, it is important to note that Illumina cycle calibration and cluster calling is done in the first 4 cycles (first four base-pairs of read 1). It also is used to establish other metrics (e.g., signal thresholds) for base-calling.
-Therefore it is essential that the first four base pairs are "diverse" (i.e. no particular nucleotide is over-represented in the first four base-pairs). Designing the right barcodes to add to the start of your reads extremely important!
-
-Additionally, the Illumina NextSeq machine's have a slighly different sequence setup to the other sequencing machines (MiSeq, HiSeq and GAII's), using two-channel sequencing, which requires only two images to encode the data for four DNA bases, one red channel and one green channel. Guanine is an absence of colour and therefore at least one base other than G most be present in the [first two cycles](http://blog.kokocinski.net/index.php/barcode-balancing-for-illumina-sequencing?blog=2).
-
-For more information on Illumina cluster density and other technical aspects of cycles and imaging, [read the following Illumina support material](https://support.illumina.com/content/dam/illumina-marketing/documents/products/other/miseq-overclustering-primer-770-2014-038.pdf).
-
-To demonstrate demultiplexing we will use the a sequencing run with two samples that have a 7bp barcode.
-These are in the folder `~/multiplexed/01_rawData/fastq`, with the barcodes being in `~/multiplexed/barcodes_R1.txt`
-
-
-Our barcode sequences should be "GCGTAGT" (for bc1) and "CCTCGTA" (for bc2). Lets first see what possible barcodes are available in the first 7bp of our dataset and see if it matches what we expect:
-
-```
-cd ~/multiplexed/01_rawData/fastq
-zcat Run1_R1.fastq.gz | sed -n '2~4p' | cut -c 1-7 | sort | uniq -c | sort -nr | head -n10
-```
-
-What top 5 barcodes are found in our data? Do the top two reflect our the barcodes we should have?
-
-The command above is quite long and contains multiple unix commands that are separated by a pipe. What does each command do?
-
-| Command | Explanation |
-|---------|-------------|
-| `zcat Run1_R1.fastq.gz` | Prints the compressed fastq file to screen |
-| `sed -n '2~4p'` | Prints the second line (sequence of each fastq file) |
-| `cut -c 1-7` | Get the first 7 characters |
-| `sort` | sort the sequences |
-| `uniq -c` | Find the unique 7 characters are count them |
-| `sort -nr` | sort the sequences and reverse the order |
-| `head -n10` | Print the top 10 |
-
-Our real barcodes are actually in a file called barcodes_R1.txt. Unfortunately, `sabre` only runs with uncompressed data, so to run this program we'll need to ungzip our fastq files.
-
-```
-gunzip Run1_R1.fastq.gz
-gunzip Run1_R2.fastq.gz
-```
-
-`sabre` has also been a little more difficult to install remotely onto your VMs, so just test the installtion first.
-If you don't see the expected output, call an instructor over.
-The following command should give you the help page we need.
-
-```
-sabre pe --help
-```
-
-If that shows you a friendly-looking help-page, you can carry on and demultiplex the reads using
-
-```
-sabre pe -m 1 -f Run1_R1.fastq -r Run1_R2.fastq -b ../../barcodes_R1.txt \
-  -u unknown_barcode1.fastq -w unknown_barcode2.fastq
-```
 
 #### Questions
 {:.no_toc}
@@ -130,7 +71,7 @@ Sometimes, if we've missed a base in the adapter you'll see a strong bias in the
 ### FastQC
 
 Before moving on, we need to check the quality of the trimmed sequences, so let's run `fastqc` on these files to check them out.
-*Make sure you're in the corect directory first!*
+*Make sure you're in the correct directory first!*
 
 ```
 mkdir -p 02_trimmedData/FastQC

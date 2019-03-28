@@ -20,7 +20,7 @@ Some additional resources run by the Bioinformatics Hub which may be of interest
 - A Twitter account https://twitter.com/UofABioinfoHub/
 - An active Slack team for discussing Bioinformatics questions with the local community. Slack teams do require an invitation to join, so please email the Hub on bioinf_hub@adelaide.edu.au to join the community. All are welcome.
 
-Today’s workshop has been put together by Jimmy Breen and Steve Pederson.
+Today’s workshop has been put together by Jimmy Breen, Steve Pederson and Dan Kortschak.
 We hope it will be useful in enabling you to continue and to advance your research.
 
 ## Course Summary
@@ -34,6 +34,7 @@ In this course, we will introduce the key file types used in genomic analyses, i
 Today your helpers will be
 
 - Steve Pederson (Bioinformatics Hub)
+- Dan Kortschak (Bioinformatics Hub)
 - Jimmy Breen (Bioinformatics Hub / SAHMRI)
 
 ## Recommendations For Working
@@ -44,7 +45,7 @@ Additionally, in your work beyond today, you will probably not have any instruct
 The experience of typing these commands will equip you for future work far better than if you simply copy & paste.
 
 Some non-compulsory sections are also included and we have indicated these with the phrase **Advanced material**.
-Skipping these sections will not disadvantage you at all, as these only proved aditional information for those working more quickly or with a little prior experience.
+Skipping these sections will not disadvantage you at all, as these only proved additional information for those working more quickly or with a little prior experience.
 
 
 

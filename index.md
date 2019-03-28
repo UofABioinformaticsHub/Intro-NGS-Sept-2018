@@ -1,14 +1,7 @@
 # Introduction To NGS Data
 
-## https://big-sa.github.io/Intro-NGS-Sept-2018/
-
 ## Presented by the Bioinformatics Hub <br> University of Adelaide
-
-Sept 27, 2018  
-9am - 5pm  
-Room 450  
-The Braggs   
-University of Adelaide
+## https://uofabioinformaticshub.github.io/Intro-NGS-fib/
 
 # Computer Setup
 
@@ -22,14 +15,28 @@ Today's password is `trainroof`
 
 # Course Material
 
-- [1 Introduction](notes/Introduction)
-- [2 File Types](notes/file_types)
-- [3 What Is NGS Data](notes/raw_data)
-- [4 Quality Control](notes/qc)
-- [5 Trimming And Filtering Data](notes/filtering_sequence)
-- [6 Aligning Data](notes/alignment)
-- [7 Working with Alignments](notes/working_with_alignments)
-- [8 Identifying Variants](notes/variant_calling)
+- [1 Introduction](notes/1-introduction)
+- [2 File Types](notes/2-file_types)
+- [3 What Is NGS Data](notes/3-raw_data)
+- [4 Quality Control](notes/4-quality_control)
+- [5 Trimming And Filtering Data](notes/5-filtering_sequence)
+- [5.9 Start aligner]
+- [6 Aligning Data](notes/6-alignment)
+- [7 Working with Alignments](notes/7-working_with_alignments)
 
+# Course Schedule
+
+The workshop will be run in a series of 1½ hour sessions
+
+### North Terrace Campus
+
+All sessions will be held in The Braggs, Room 450
+
+| Date | Time | Main Topics |
+| ---------- |---------- | ---------- |
+| Wed, April 17th |  9:00am-10:30pm  | 1,2,3 |
+| Wed, April 17th | 11:00pm-12:30pm  | 4, 5, 5.9? |
+| Wed, April 17th | 13:30am-15:00pm  | 6, 7 |
+| Wed, April 17th | 15:30pm-17:00pm  | RNASeq workflow |
 
 [Back To Top](#introduction-to-ngs-data)

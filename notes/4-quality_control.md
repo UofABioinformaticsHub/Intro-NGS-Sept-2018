@@ -23,8 +23,8 @@ Look up the following options to find what they mean.
 
 | Option | Usage |
 |:------ |:------|
-| -o     |       |
-| -t     |       |
+| `-o`     |       |
+| `-t`     |       |
 
 
 As we have two files, we will first need to create the output directory, then we can run fastqc using 2 threads which will ensure the files are processed in parallel.
@@ -77,7 +77,7 @@ If your terminal seems busy after you close firefox, use the `Ctrl C` shortcut t
 1. *How many sequences are there in both files?*
 2. *How long are the sequences in these files?*
 
-## Interpreting the FASTQC Report
+## Interpreting the FastQC Report
 
 As we work through the QC reports we will develop a series of criteria for filtering and cleaning up our files.
 There is usually no perfect solution, we just have to make the best decisions we can based on the information we have.
@@ -90,7 +90,7 @@ We’ll investigate some of the others with some ‘bad’ data later.
 
 Both of the files should be open in firefox in separate tabs.
 Perform the following steps on both files.
-Click on the `Per base sequence quality` hyperlink on the left of the page & you will see a boxplot of the QC score distributions for every position in the read.
+Click on the `Per base sequence quality` hyper-link on the left of the page & you will see a boxplot of the QC score distributions for every position in the read.
 This is the first plot that bioinformaticians will look at for making informed decisions about later stages of the analysis.
 
 *What do you notice about the QC scores as you progress through the read?*
