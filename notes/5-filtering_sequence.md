@@ -62,13 +62,12 @@ AdapterRemoval \
 {:.no_toc}
 *1. What did the settings* `--minlength 35` *and* `--minquality 20` *do in the above?*
 
-<!--FIXME(kortschak) What to do here? I'm not sure of the AdaptorRemoval logging output.-->
-The `cutadapt` tool produces a large amount of information about the trimming process
-In the above we wrote this output to a log file using the `>` symbol to redirect `stdout` to a file.
+The `AdapterRemoval` tool can be made to output information about the trimming process to a file.
+In the above we wrote this output to a "settings" file using the `--settings` option to output this to the `adaptor_removal.settings` file.
 Let's have a look in the file to check the output.
 
 ```
-less cutadapt.log
+less adaptor_removal.settings
 ```
 
 As these were a good initial sample, it's not surprising that we didn't lose many sequences.
