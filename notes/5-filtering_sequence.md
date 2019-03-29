@@ -3,11 +3,11 @@
 
 # Trimming and quality filtering of NGS data
 
-Once we have inspected our data & have an idea of how accurate our reads are, as well as any other technical issues that may be within the data, we may need to trim or filter the reads to make sure we are aligning or analysing sequences that accurately represent our source material.  As we’ve noticed, the quality of reads commonly drops off towards the end of the reads, and dealing with this behaviour is an important part of most  processing pipelines.  Sometimes we will require reads of identical lengths for our downstream analysis, whilst other times we can use reads of varying lengths.  The data cleaning steps we choose for our own analysis will inevitably be influenced by our downstream requirements.
+Once we have inspected our data & have an idea of how accurate our reads are, as well as any other technical issues that may be within the data, we may need to trim or filter the reads to make sure we are aligning or analysing sequences that accurately represent our source material.  As we’ve noticed, the quality of reads commonly drops off towards the end of the reads, and dealing with this behaviour is an important part of most processing pipelines. Sometimes we will require reads of identical lengths for our downstream analysis, whilst other times we can use reads of varying lengths. The data cleaning steps we choose for our own analysis will inevitably be influenced by our downstream requirements.
 
 ## The Basic Workflow
 
-Data cleaning & pre-processing can involve many steps, and today we will use the basic work-flow as outlined below.  Every analysis is slightly different so some steps may or may not be required for your own data.  Some steps do have a little overlap, and some pipelines (e.g. *Stacks*) may perform some of these steps for you.
+Data cleaning & pre-processing can involve many steps, and today we will use the basic work-flow as outlined below  analysis is slightly different so some steps may or may not be required for your own data  steps do have a little overlap, and some pipelines (e.g. *Stacks*) may perform some of these steps for you.
 
 Using today’s datasets, we will take one sequencing experiment hrough demultiplexing and adapter removal, and then use our *C. elegans* WGS to run genome mapping and alignment filtering. We will perform most steps on files at this stage, rather than on a complete library, but the principle is essentially the same.
 
@@ -16,7 +16,7 @@ Using today’s datasets, we will take one sequencing experiment hrough demultip
 1. **Remove Low Quality Reads** (`fastq_illumina_filter`). *As discussed earlier, this may or may not be required*
 2. **Remove Adapters** (`AdapterRemoval`)
 3. **Remove Low Quality Bases**. This is usually done by our adapter removal tools, and can be performed by trimming:
-    1. based on quality scores
+    1. based on quality scores 
     2. to a fixed length
 4. **Alignment** to a reference (`bwa`, `bowtie2`, `STAR`)
 5. **Post-alignment QC** (`picard markDuplicates`, `IGV`)
