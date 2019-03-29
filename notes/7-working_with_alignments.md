@@ -6,9 +6,9 @@
 ## The SAM/BAM file format
 
 Reads that have been aligned to a reference are no longer stored in fastq format but are stored in either SAM or BAM format.
-These two formats are virtually identical, however the SAM format is a text file which is easily readable to human eyes, whilst a BAM file is the same information converted to binary.
+These two formats are virtually identical, however the SAM format is a text file which is easily readable to human eyes, while a BAM file is the same information converted to binary.
 This conversion means that file sizes are smaller, and that computational processes can be performed more efficiently.
-Typically, we work with BAM files as these provide gains in storage space & analytic speed.
+Typically, we work with BAM files as these provide gains in storage space and analytic speed.
 The tools we use to inspect these files are provided in the package samtools, which has been installed on your VM.
 
 The reads from the previous dataset which mapped to *chrI* of *C. elegans* are in the folder `~/WGS/02_trimmedData/fastq`
@@ -21,7 +21,7 @@ ls
 ## Conversion to BAM format
 
 The BAM format is much more convenient computationally, so we have converted our alignments into BAM format using `samtools view` during the alignment process.
-SAM files are *plain text*, whilst BAM files are *compressed* and much easier for the computer to read/write.
+SAM files are *plain text*, while BAM files are *compressed* and much easier for the computer to read/write.
 As BAM files are in binary format they will look like gibberish if we try to read them directly.
 Instead we can inspect them by using `samtools view` as in the line above.
 
@@ -37,8 +37,8 @@ As this data can easily spill across lines, it might be helpful to maximise your
 ## The SAM/BAM data structure
 
 If we understand what information is contained within a file, we can know what decisions to make as we progress with our analysis, so let's have a look at what the data structure is for a SAM/BAM file.
-A SAM/BAM file is `tab-delimited`, which means that each field is separated by a tab, giving a data structure effectively consisting of columns (or fields).
-In order, these are:
+A SAM file is `tab-delimited`; each field is separated by a tab.
+In order, the fields of each record are:
 
 | 1 | QNAME | Query template/pair NAME |
 | 2 | FLAG | bitwise FLAG |
@@ -46,14 +46,14 @@ In order, these are:
 | 4 | POS | 1-based leftmost POSition/coordinate of clipped sequence |
 | 5 | MAPQ | MAPping Quality (Phred-scaled) |
 | 6 | CIGAR | extended CIGAR string |
-| 7 | MRNM | Mate Reference sequence NaMe (`=' if same as RNAME) |
+| 7 | MRNM | Mate Reference sequence NaMe (`=` if same as RNAME) |
 | 8 | MPOS | 1-based Mate POSistion |
 | 9 | TLEN | inferred Template LENgth (insert size) |
 | 10 | SEQ | query SEQuence on the same strand as the reference |
 | 11 | QUAL | query QUALity (ASCII-33 gives the Phred base quality) |
 | 12 | OPT | variable OPTional fields in the format TAG:VTYPE:VALUE |
 
-
+The internal representation of BAM files does not (for the most part) include tabs, but the information stored there is identical.
 
 Several of these fields contain useful information, so looking the the first few lines which we displayed above, you can see that these reads are mapped in pairs as consecutive entries in the QNAME field are often (but not always) identical.
 Most of these fields are self-explanatory, but some require exploration in more detail.
@@ -64,21 +64,20 @@ Most of these fields are self-explanatory, but some require exploration in more 
 These are quite useful pieces of information, but can be difficult at first look.
 Head to http://broadinstitute.github.io/picard/explain-flags.html to see a helpful description.
 The simplest way to understand these is that it is a bitwise system so that each description heading down the page increases ina binary fashion.
-The first has value 1, the second has value 2, the third has value 4 & so on until you reach the final value of 2048.
+The first has value 1, the second has value 2, the third has value 4 and so on until you reach the final value of 2048.
 The integer value contained in this file is the unique sum of whichever attributes the mapping has.
-For example, if the read is paired \& mapped in a proper pair, but no other attributes are set, the flag field would contain the value 3.
+For example, if the read is paired and mapped in a proper pair, but no other attributes are set, the flag field would contain the value 3.
 
 #### Questions
 {:.no_toc}
 
 
-1. *What value could a flag take if the read was 1 - paired; 2 - mapped in a proper pair; 3 - it was the first in the pair \& 4 - the alignment was a supplementary alignment.*
-2. *Some common values in the bam file are 99, 147 & 145. Look up the meanings of these values.*
+1. *What value could a flag take if the read was 1 - paired; 2 - mapped in a proper pair; 3 - it was the first in the pair, and 4 - the alignment was a supplementary alignment.*
+2. *Some common values in the bam file are 99, 147 and 145. Look up the meanings of these values.*
 
 
-
-Things can easily begin to confuse people once you start searching for specific flags, but if you remember that each attribute is like an individual flag that is either on or off (i.e. it is actually a binary bit with values 0 or 1).
-If you searched for flags with the value 1, you wouldn't obtain the alignments with the exact value 1, rather you would obtain the alignments for which the first flag is set & these can take a range of values.
+Things can easily begin to confuse people once you start searching for specific flags, but if you remember that each attribute is like an individual flag that is either on or off (_i.e._ it is actually a binary bit with values 0 or 1).
+If you searched for flags with the value 1, you wouldn't obtain the alignments with the exact value 1, rather you would obtain the alignments for which the first flag is set and these can take a range of values.
 
 
 Let's try this using the command `samtools view` with the option `-f N` to include reads with a flag set and the option `-F N` to exclude reads with a specific flag set.
@@ -113,7 +112,7 @@ You can pull out highly specific combinations of alignments should you so choose
 These give useful information about the type of alignment that has been performed on the read.
 In the first few reads we called up earlier, most had the value `..M` where `..` is some number.
 These are the perfect Matches, where the sequence has aligned exactly.
-The other abbreviations in common use are I (insertion), D (deletion) & S (soft-clipping).
+The other abbreviations in common use are I (insertion), D (deletion) and S (soft-clipping).
 Soft-clipping is a strategy used by aligners to mask mismatches, so these are often analagous to substitutions.
 Hard-clipping (H) is an alternative strategy, but the difference between the two is beyond the scope of today.
 
