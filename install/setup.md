@@ -39,7 +39,7 @@ If you don't know what we mean, then just carry on using X2Go.
 
 This is only possible if you're running a Mac or Linux system.
 However, these installation instructions are written for Mac, and have **not** been tested.
-If you're running a Linux OS, change the first line to download the correct installation script (i.e. https://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh).
+If you're running a Linux OS, change the first line to download the correct installation script (_i.e._ https://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh).
 Everything else should be exactly the same.
 
 First you'll need to minconda (taken from https://conda.io/docs/user-guide/install/macos.html)

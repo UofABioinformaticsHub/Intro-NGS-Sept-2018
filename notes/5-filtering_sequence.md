@@ -7,7 +7,7 @@ Once we have inspected our data & have an idea of how accurate our reads are, as
 
 ## The Basic Workflow
 
-Data cleaning & pre-processing can involve many steps, and today we will use the basic work-flow as outlined below  analysis is slightly different so some steps may or may not be required for your own data  steps do have a little overlap, and some pipelines (e.g. *Stacks*) may perform some of these steps for you.
+Data cleaning & pre-processing can involve many steps, and today we will use the basic work-flow as outlined below  analysis is slightly different so some steps may or may not be required for your own data  steps do have a little overlap, and some pipelines (_e.g._ *Stacks*) may perform some of these steps for you.
 
 Using today’s datasets, we will take one sequencing experiment hrough demultiplexing and adapter removal, and then use our *C. elegans* WGS to run genome mapping and alignment filtering. We will perform most steps on files at this stage, rather than on a complete library, but the principle is essentially the same.
 

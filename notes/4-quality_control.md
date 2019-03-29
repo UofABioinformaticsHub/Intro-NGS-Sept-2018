@@ -126,7 +126,7 @@ This will often show artefacts from barcode sequences or adapters early in the r
 </details>
 
 **Sequence Length Distribution**<details>
-This shows the distributions of sequence lengths in our data. Here we have sequences that are all the same lengths, however if the length of your reads is vital (e.g. smallRNA data), then this can also be an informative plot.
+This shows the distributions of sequence lengths in our data. Here we have sequences that are all the same lengths, however if the length of your reads is vital (_e.g._ smallRNA data), then this can also be an informative plot.
 </details>
 
 **Sequence Duplication Levels** This plot shows about what you’d expect from a typical NGS experiment.
@@ -135,10 +135,10 @@ This is only calculated on a small sample of the library for computational effic
 
 **Overrepresented Sequences** Here we can see any sequence which are more abundant than would be expected. Sometimes you'll see sequences here that match the adapters used, or you may see highly expressed genes here.
 
-**Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (i.e. inserts) then the sequencing will run into the adapters.
+**Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (_i.e._ inserts) then the sequencing will run into the adapters.
 If you have used custom adapters, you may need to supply them to `FastQC` as this only searches for common adapter squences.
 
-***k*-mer Content**
+**_k_-mer Content**
 This plot was not particularly informative and has been dropped in FastQC >= 0.11.6.
 Statistically over-represented `k`-mers can be seen here & often they will overlap.
 In our first plot, the black & blue `k`-mers are the same motif, just shifted along one base.

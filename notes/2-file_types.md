@@ -58,7 +58,7 @@ Now we've had a brief exploration of the browser, let's look at some file types 
 {:.no_toc}
 
 These are a common file type for uploading your own data to the UCSC browser if you'd like to add a custom track with your own genomic features, and can also be imported into the IGV browser which we'll explore later in the session.
-This format is best used for genomic regions which all represent the same type of feature (e.g. genes, promoters, sequence motifs etc).
+This format is best used for genomic regions which all represent the same type of feature (_e.g._ genes, promoters, sequence motifs etc).
 They're also able to be used as input for numerous analytic tools, so are very useful to know about.
 A full description of the format is available at: https://genome.ucsc.edu/FAQ/FAQformat.html#format1
 
@@ -135,12 +135,12 @@ Whilst BED files are generally for showing all the locations of a single type of
 Again, like BED files, fields are tab-separated with no line provided which gives the column names.
 These are fixed by design, and as such explicit column names are not required.
 
-1. **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seqname must be one used within Ensembl, i.e. a standard chromosome name or an Ensembl identifier such as a scaffold ID, without any additional content such as species or assembly. See the example GFF output below.
+1. **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seqname must be one used within Ensembl, _i.e._ a standard chromosome name or an Ensembl identifier such as a scaffold ID, without any additional content such as species or assembly. See the example GFF output below.
 2. **source** - name of the program that generated this feature, or the data source (database or project name)
 3. **feature** - feature type name, can only take the values "CDS", "start_codon", "stop_codon", "5UTR", "3UTR", "inter", "inter_CNS", "intron_CNS" and "exon" (CNS stands for Conserved Noncoding Sequence)
 4. **start** - Start position of the feature, with sequence numbering starting at 1.
 5. **end** - End position of the feature, with sequence numbering starting at 1.
-6. **score** - A floating point value (i.e. decimal points are allowed)
+6. **score** - A floating point value (_i.e._ decimal points are allowed)
 7. **strand** - defined as + (forward) or - (reverse).
 8. **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on...
 9. **attribute** - A *semicolon-separated* list of tag-value pairs, providing additional information about each feature. In the GTF format two mandatory features are required here, although they can be an empty string, _i.e._ `""`:
@@ -169,7 +169,7 @@ The most **hated** format is a VCF file, which stands for *Variant Call Format*,
 Again, the general structure is header rows (beginning with the double comment symbol `##`), followed by tab-separated columns with the actual data.
 In this case, column names are provided directly about the data in a line starting with a single comment character (`#`).
 
-Whilst a flexible format, it is heavily structured with abbreviations and symbols with important meaning, e.g. phased genotypes are separated by `|`, whilst unphased ones are separated by `/`.
+Whilst a flexible format, it is heavily structured with abbreviations and symbols with important meaning, _e.g._ phased genotypes are separated by `|`, whilst unphased ones are separated by `/`.
 The example is taken from the file specification at https://samtools.github.io/hts-specs/VCFv4.2.pdf, and we could spend an enormous amount of time unpacking this example.
 
 Important things to note are:
