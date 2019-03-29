@@ -143,11 +143,9 @@ These are fixed by design, and as such explicit column names are not required.
 6. **score** - A floating point value (i.e. decimal points are allowed)
 7. **strand** - defined as + (forward) or - (reverse).
 8. **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on...
-9. **attribute** - A *semicolon-separated* list of tag-value pairs, providing additional information about each feature. In the GTF format two mandatory features are required here, although they can be left blank:
+9. **attribute** - A *semicolon-separated* list of tag-value pairs, providing additional information about each feature. In the GTF format two mandatory features are required here, although they can be an empty string, _i.e._ `""`:
     + **gene_id** *value*
     + **transcript_id** *value*
-
-<!--FIXME(kortschak): What does "mandatory" but may be left blank mean? -->
 
 Notice that there's *no real way to represent our FOXP3 sites as a GTF file*!
 This format is really designed for gene-centric features as seen in the 3rd column.
