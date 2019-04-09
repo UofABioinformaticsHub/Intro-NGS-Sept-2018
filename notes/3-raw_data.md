@@ -23,6 +23,8 @@ Note that for paired and single-end reads, the yield appears quite different.
 Importantly, the same number of fragments are sequenced, with the difference being that reads are generated in a single direction only, or with the additional sequencing from the opposite end of the fragment.
 Illumina also consider that a single flow cell is suitable for a *single genome*, 12 exomes or *16 transcriptomes*, based on the size of the human genome.
 
+Illumina have a [comparison table](https://sapac.illumina.com/systems/sequencing-platforms.html) for the different platforms and their uses.
+
 ### Barcodes vs Indexes
 
 In the video, you may have noticed an index sequence being mentioned which was within the sequencing primers \and adapters ligated to each fragment.
