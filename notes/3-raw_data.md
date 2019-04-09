@@ -10,7 +10,7 @@ This video picks up *after* the process of fragmentation, as most strategies req
 
 
 Illumina have released multiple sequencing machines, with a common platform being the various models of the NextSeq.
-Flow cells for the NextSeq models have four lanes, which are drawn from a common sample reservoir and are essentially a form of technical replicates
+Flow cells for the NextSeq models have four lanes, which are drawn from a common sample reservoir and are essentially a form of technical replicates.
 Example run times and yields for the Nextseq 550 High-Output Kit are given below:
 
 | Read Length | Total Time | Output     |	Yield        |
