@@ -27,10 +27,10 @@ You'll be able to see:
 5. A whole lot of other information...
 
 Once you've got a handle on what's there, locate the `hide all` button and click that, which will just give the genomic region with no track information.
-We can turn on a huge variety of "*tracks*" which contain genomic informationthat we may care about.
+We can turn on a huge variety of "*tracks*" which contain genomic information that we may care about.
 Let's start by turning on the GENCODE transcripts again.
 
-Under the **Genes and Gene Predictions** section, find the *GENCODE v24* drop-down menu and click the arrow next to the word 'hide'.
+Under the **Genes and Gene Predictions** section, find the *GENCODE v29* drop-down menu and click the arrow next to the word 'hide'.
 Change this to 'full' and hit one of the `refresh` button you can see scattered across the page.
 Now the transcripts will appear again in a less cluttered display.
 Under the hood, the browser has used this information saved as a `BED` file, which enables us to define genomic regions in a convenient *tab-delimited* format.
@@ -45,7 +45,7 @@ If you haven't already tried it, you can click on any of the genomic features an
 You can also drag your mouse over regions to zoom in, and can zoom out using the buttons at the top of the page.
 Type the name of your favourite gene into the search box and you'll be able to find your way to that.
 If you can't think of one, just enter *IL2RA* and you'll be taken to a page **full** of choices.
-As we're using GENCODE 24, look for that list about half way down and select one of the isoforms you can see.
+As we're using GENCODE v29, look for that list about half way down and select one of the isoforms you can see.
 This will take you back to the browser, but just showing the region for the selected transcript.
 
 Now we've had a brief exploration of the browser, let's look at some file types which will enable us to upload custom features, and which are useful an numerous stages during analysis using NGS data.
@@ -85,7 +85,7 @@ These two regions were obtained as [enriched for FOXP3 binding within the gene *
 1. Now you've saved the file (see the bash workshop text editor [notes](https://uofabioinformaticshub.github.io/BASH-Intro/notes/3_sed_awk_grep.html#command-line-interface-cli-text-editors-for-small-ish-files)), head to the UCSC browser at [https://genome.ucsc.edu/cgi-bin/hgGateway](https://genome.ucsc.edu/cgi-bin/hgGateway). Ensure you are using the `hg38` genome build.
 2. Enter the gene GK in the `Position/Search Term` text box, then just click on any of the links returned by the search.
 3. Find the button labelled `hide all` and click it.
-4. Under `Genes and Gene Predictions`, find `GENCODE v24` and select `full` using the drop-down menu
+4. Under `Genes and Gene Predictions`, find `GENCODE v29` and select `full` using the drop-down menu
 
 This should just give you a generic view of the gene *GK*.
 
