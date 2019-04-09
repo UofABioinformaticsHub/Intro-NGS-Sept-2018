@@ -50,7 +50,8 @@ This will take you back to the browser, but just showing the region for the sele
 
 Now we've had a brief exploration of the browser, let's look at some file types which will enable us to upload custom features, and which are useful an numerous stages during analysis using NGS data.
 
-
+There are two videos that go through the kinds of things you can do with the UCSC genome browser [here](https://www.youtube.com/watch?v=tfRyntqvb_g) and [here](https://www.youtube.com/watch?v=4qdXcm5vzNw).
+Take some time later to have a look at these.
 
 ## BED Files
 
