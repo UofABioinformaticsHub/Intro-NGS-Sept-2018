@@ -140,8 +140,8 @@ If you have used custom adapters, you may need to supply them to `FastQC` as thi
 
 **_k_-mer Content**
 This plot was not particularly informative and has been dropped in FastQC >= 0.11.6.
-Statistically over-represented `k`-mers can be seen here & often they will overlap.
-In our first plot, the black & blue `k`-mers are the same motif, just shifted along one base.
+Statistically over-represented _k_-mers can be seen here & often they will overlap.
+In our first plot, the black & blue _k_-mers are the same motif, just shifted along one base.
 No information is given as to the source of these sequences, and you would expect to see barcode sequences or motifs that correspond to any digestion protocols here.
 
 ## Some More Example Reports
