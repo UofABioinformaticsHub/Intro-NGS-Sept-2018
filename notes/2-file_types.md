@@ -171,7 +171,7 @@ Again, the general structure is header rows (beginning with the double comment s
 In this case, column names are provided directly about the data in a line starting with a single comment character (`#`).
 
 While a flexible format, it is heavily structured with abbreviations and symbols with important meaning, _e.g._ phased genotypes are separated by `|`, while unphased ones are separated by `/`.
-The example is taken from the file specification at https://samtools.github.io/hts-specs/VCFv4.2.pdf, and we could spend an enormous amount of time unpacking this example.
+The example is taken from the file specification in the [VCFv4.2 specification](https://samtools.github.io/hts-specs/VCFv4.2.pdf), and we could spend an enormous amount of time unpacking this example.
 
 Important things to note are:
 
