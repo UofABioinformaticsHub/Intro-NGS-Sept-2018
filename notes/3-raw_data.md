@@ -3,7 +3,7 @@
 
 # NGS Data Generation
 
-Before we can begin to analyse any data, it is helpful to understand how it was generated. Whilst there are numerous platforms for generation of NGS data, today we will look at the Illumina Sequencing by Synthesis method, which is one of the most common methods in use today. Many of you will be familiar with the process involved, but it may be worth looking at the following [5-minute video from Illumina:](https://youtu.be/fCd6B5HRaZ8).
+Before we can begin to analyse any data, it is helpful to understand how it was generated. while there are numerous platforms for generation of NGS data, today we will look at the Illumina Sequencing by Synthesis method, which is one of the most common methods in use today. Many of you will be familiar with the process involved, but it may be worth looking at the following [5-minute video from Illumina:](https://youtu.be/fCd6B5HRaZ8).
 
 
 This video picks up *after* the process of fragmentation, as most strategies require DNA/RNA fragments within a certain size range. This step may vary depending on your experiment, but the important concept to note during sample preparation is that the DNA insert has multiple sequences ligated to either end. These include 1) the sequencing primers, 2) index and /or barcode sequences, and 3) the flow-cell binding oligos.
@@ -27,7 +27,7 @@ Illumina have a [comparison table](https://sapac.illumina.com/systems/sequencing
 
 ### Barcodes vs Indexes
 
-In the video, you may have noticed an index sequence being mentioned which was within the sequencing primers \and adapters ligated to each fragment.
+In the video, you may have noticed an index sequence being mentioned which was within the sequencing primers and adapters ligated to each fragment.
 Under this approach, a unique index is added to each sample during library preparation and these are used to identify which read came from which sample.
 This is a common strategy in RNA-Seq libraries and many other analyses with relatively low replicate numbers (i.e <= 16 transcriptomes).
 Importantly, the index will not be included in either the forward or reverse read.
@@ -35,14 +35,14 @@ Importantly, the index will not be included in either the forward or reverse rea
 A common alternative for analyses such as RAD-seq or GBS-seq, where population level data is being sequenced using a reduced representation approach.
 In these strategies, a *barcode* is added *in-line* and is directly next to the restriction site used to fragment the data (if a restriction enzyme approach was used for fragmentation).
 These barcodes are included next to the genomic sequence, and will be present in either or both the forward or reverse reads, depending on the barcoding strategy being used.
-A single barcode is shown in B) of the following image (taken from https://rnaseq.uoregon.edu/), whilst a single index is shown in C).
+A single barcode is shown in B) of the following image (taken from https://rnaseq.uoregon.edu/), while a single index is shown in C).
 
 ![](../images/libprep.jpg)
 
 
 ## FASTQ File Format
 
-As the sequences are extended during the sequencing reaction, an image is recorded which is effectively a movie or series of frames at which the addition of bases is recorded and detected. We mostly don’t deal with these image files, but will handle data generated from these in *FASTQ* format, which can commonly have the file suffix .fq or .fastq. As these files are often very large, they will often be zipped using `gzip` or `bzip`. Whilst we would instinctively want to unzip these files using the command gunzip, most NGS tools are able to work with zipped FASTQ files, so decompression (or extraction) is usually unnecessary. This can save considerable hard drive space, which is an important consideration when handling NGS datasets as the quantity of data can easily push your storage capacity to it’s limit.
+As the sequences are extended during the sequencing reaction, an image is recorded which is effectively a movie or series of frames at which the addition of bases is recorded and detected. We mostly don’t deal with these image files, but will handle data generated from these in *FASTQ* format, which can commonly have the file suffix .fq or .fastq. As these files are often very large, they will often be zipped using `gzip` or `bzip`. while we would instinctively want to unzip these files using the command gunzip, most NGS tools are able to work with zipped FASTQ files, so decompression (or extraction) is usually unnecessary. This can save considerable hard drive space, which is an important consideration when handling NGS datasets as the quantity of data can easily push your storage capacity to it’s limit.
 
 We should still have a terminal open from the previous section and, if necessary, use the `cd` command to make sure you are in the home (`~/`) directory. The command `zcat` unzips a file and prints the output to the terminal, or standard output (`stdout`). If we did this to these files, we would see a stream of data whizzing past in the terminal, but instead we can just pipe the output of zcat to the command head to view the first 8 lines of a file.
 
