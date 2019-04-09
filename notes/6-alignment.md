@@ -11,7 +11,10 @@ Most fast aligners in widespread public use are based on a technique called the 
 
 ### What’s the difference
 
-Some key differences between aligners is in the way they index the genome, and in the a way they are equipped to handle mismatches and indels (insertions and deletions). Choosing an aligner can be a difficult decision with the differences often being quite subtle. Sometimes there is a best choice, other times there really isn’t. Make sure you’ve researched relatively thoroughly before deciding which to use.
+Some key differences between aligners is in the way they index the genome, and in the a way they are equipped to handle mismatches and indels (insertions and deletions).
+Choosing an aligner can be a difficult decision with the differences often seeming quite subtle, but with significant impacts.
+Sometimes there is a best choice, other times there really isn’t.
+Make sure you’ve researched relatively thoroughly before deciding which to use.
 
 Here is a selection of commonly used aligners.
 
