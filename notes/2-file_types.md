@@ -129,10 +129,10 @@ Notice that we didn't bother with the final three columns.
 ## GFF/GTF Files
 
 There can be a little confusion about GFF and GTF files and these share some similarities with BED files.
-GFF (General Feature Format) files have version2 and version3 formats, which are slightly different.
+GFF (General Feature Format) files have version 2 and version 3 formats, which are slightly different.
 Today, we'll just look at GTF (General Transfer Format) files, which are best considered as GFF2.2, as restrictions are placed on the type of entries that can be placed in some columns.
 
-Whilst BED files are generally for showing all the locations of a single type of feature, multiple feature types can be specified within one of these files.
+While BED files are generally for showing all the locations of a single type of feature, multiple feature types can be specified within one of these files.
 Again, like BED files, fields are tab-separated with no line provided which gives the column names.
 These are fixed by design, and as such explicit column names are not required.
 
@@ -162,7 +162,7 @@ Also note that header rows are not controlled, but must start with the comment c
 381 Twinscan  stop_codon   708   710   .   +   0  gene_id "001"; transcript_id "001.1";
 ```
 
-**Note**: People variously use GFF and GTF to talk about GFF version 2, and GFF to talk about GFF version 3. GFF2 is not compatible with GFF3, so make sure you have the correct file format if you are given a GFF file. There are conversion tools available to inter-covert them, they are rarely reliable.
+**Note**: People variously use GFF and GTF to talk about GFF version 2, and GFF to talk about GFF version 3. GFF2 is not compatible with GFF3, so make sure you have the correct file format if you are given a GFF file. There are conversion tools available to inter-convert them, they are rarely reliable.
 
 ## VCF Files
 
@@ -170,7 +170,7 @@ The most **hated** format is a VCF file, which stands for *Variant Call Format*,
 Again, the general structure is header rows (beginning with the double comment symbol `##`), followed by tab-separated columns with the actual data.
 In this case, column names are provided directly about the data in a line starting with a single comment character (`#`).
 
-Whilst a flexible format, it is heavily structured with abbreviations and symbols with important meaning, _e.g._ phased genotypes are separated by `|`, whilst unphased ones are separated by `/`.
+While a flexible format, it is heavily structured with abbreviations and symbols with important meaning, _e.g._ phased genotypes are separated by `|`, while unphased ones are separated by `/`.
 The example is taken from the file specification at https://samtools.github.io/hts-specs/VCFv4.2.pdf, and we could spend an enormous amount of time unpacking this example.
 
 Important things to note are:
