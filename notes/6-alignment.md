@@ -18,7 +18,6 @@ Here is a selection of commonly used aligners.
 | aligner     | target     | lengths    |
 | ----------- | ---------- | ---------- |
 | [bwa](https://github.com/lh3/bwa) | DNA/RNA | short read|
-| ~~bwa-mem~~ | deprecated | long read |
 | [minimap2](https://lh3.github.io/minimap2/) | DNA/RNA | short/long read |
 | [STAR](https://github.com/alexdobin/STAR) | RNA | short read |
 | [kallisto](https://pachterlab.github.io/kallisto/about) | RNA | short read |
