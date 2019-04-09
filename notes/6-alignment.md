@@ -15,7 +15,7 @@ Some key differences between aligners is in the way they index the genome, and i
 
 Here is a selection of commonly used aligners.
 
-| aligner     | target     | lengths    |
+| aligner     | query     | lengths    |
 | ----------- | ---------- | ---------- |
 | [bwa](https://github.com/lh3/bwa) | DNA/RNA | short read|
 | [minimap2](https://lh3.github.io/minimap2/) | DNA/RNA | long read |
