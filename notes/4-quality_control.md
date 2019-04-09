@@ -43,7 +43,7 @@ If you haven’t seen the command `mkdir` before, check the help page `man mkdir
 The above command:
 
 1. Gave both files to `fastqc` using `*gz`
-2. Specified where to write the output (`-o  ̃FastQC`) &
+2. Specified where to write the output (`-o FastQC`) &
 3. Requested two threads (`-t 2`).
 
 Let's see what we have:

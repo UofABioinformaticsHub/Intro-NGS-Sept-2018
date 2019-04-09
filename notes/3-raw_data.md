@@ -67,6 +67,7 @@ In the output from the above terminal command, we have obtained the first 8 line
 
 This line begins with an @ symbol and although there is some variability between different sequencing platforms and software versions, it traditionally has several components. Today’s data have been sourced from an EBI data repository with the identifier SRR065388. For the first sequence in this file, we have the full identifier `@SRR2003569.1 JLK5VL1:245:D1DF6ACXX:6:1101:4181:2239/1` which has the following components:
 
+<!-- TODO(kortschak): Check this matches the data we have. -->
 | @SRR2003569.1 | The aforementioned EBI identifier and the sequence ID within the file. As this is the first read, we have the number 1. NB: This identifier is not present when data is obtained directly from the machine or service provider. |
 | JLK5VL1:245:D1DF6ACXX | The unique machine ID |
 | 6    | The flowcell lane |
@@ -94,6 +95,8 @@ In early versions of th technology, this repeated the sequence identifier, but t
 
 ### 3. Quality Scores
 {:.no_toc}
+
+<!-- TODO(kortschak): Restructure this. -->
 
 The only other line in the FASTQ format that really needs some introduction is the quality score information. These are presented as single *ASCII* text characters for simple visual alignment with the sequence.
 In the ASCII text system, each character has a numeric value which we can interpret as an integer, and in this context is the quailty score for the corresponding base. Head to the website with a description of these at [ASCII Code table](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_code_chart).
