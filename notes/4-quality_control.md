@@ -165,7 +165,7 @@ Most of the time we don’t factor in spatial effects, unless alternative approa
 </details>
 
 **Per Sequence Quality Scores**<details>
-This is just the distribution of the average quality scores for each read, obtained by averaging all the scores at each base within a read..
+This is just the distribution of the average quality scores for each read, obtained by averaging all the scores at each base within a read.
 There’s not much of note for us to see here.
 </details>
 
@@ -177,7 +177,9 @@ This will often show artefacts from barcodes or adapters early in the reads, bef
 </details>
 
 **Sequence Length Distribution**<details>
-This shows the distributions of read lengths in our data. Here we have reads that are pretty much all the same length, however if the length of your reads is vital (_e.g._ smallRNA data), then this can also be a very informative plot.
+This shows the distributions of read lengths in our data. If the length of your reads is vital (_e.g._ smallRNA data), then this can also be a very informative plot. For our data, it appears that some trimming has already been performed. This was done by the sequence provider, much to our disappointment.
+  It's actually quite common for this to happen, it's just the bioinformaticians love to know everything about every step that was performed.
+  It's also not uncommon for Illumina's adapter removal tools to leave quite a few there and you then have to trim yet again.
 </details>
 
 **Sequence Duplication Levels** This plot shows about what you’d expect from a typical NGS experiment.
@@ -189,6 +191,7 @@ Things to watch for here are peaks on the far right which would indicate massive
 
 **Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (_i.e._ inserts) then the sequencing will run into the adapters.
 If you have used custom adapters, you may also need to supply them to `FastQC` as this only searches for common adapter sequences.
+Here, it looks like Illumina's automated tool has a done a pretty reasonable job.
 
 ## Some More Example Reports
 
