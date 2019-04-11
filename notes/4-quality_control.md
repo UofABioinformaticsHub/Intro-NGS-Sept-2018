@@ -1,6 +1,65 @@
 * TOC
 {:toc}
 
+# Organising Your Data
+
+Before we move into the actual analysis section of today, let's talk briefly about how to structure your analysis.
+During NGS analysis, we will ended up creating multiple files and running multiple scripts, possibly in both `R` and `bash`.
+Any experienced bioinformatician will have their own approach to organising everything, as we all know how easily your directories can get messay and out of control.
+
+An example of how some in the Bioinformatics Hub structure their experiments is located at https://github.com/UofABioinformaticsHub/ngsSkeleton.
+Let's copy this to our VMs and have a look at what we have.
+
+<!-- Dan, can you please change this so it uses curl? I can't figure it out... -->
+```
+cd ~
+wget https://github.com/UofABioinformaticsHub/ngsSkeleton/archive/master.zip
+unzip master.zip
+mv ngsSkeleton-master agingRnaSeq
+rm master.zip
+ls
+```
+
+**Make sure you understand what each line of the above has done. Ask a tutor if you need help.**
+
+This will have downloaded a generic directory tree and placed all directories in a parent folder called `agingRnaSeq`.
+Now let's look at what we have in our new directory.
+
+```
+cd agingRnaSeq
+ls
+```
+
+This will list the first level directories in our main location for our experiment: `0_rawData  1_trimmedData  2_alignedData  R  README.md  bash  slurm`.
+The first three are places we can store our raw, trimmed and aligned data.
+We also have folders for `bash` and `R` scripts. **Why might we do this?**.
+The `slurm` folder isn't a cheap Futurama reference, but is where can store the output from the queuing system called `slurm`, which is used by `phoenix`.
+We won't really use this folder today though.
+
+Look inside the `0_rawData` directory:
+
+```
+ls 0_rawData
+```
+
+Here we have the folders `fastq` and `FastQC` where we can store our actual `fastq` files, and our QC reports (which we're about to generate) can be placed in the `FastQC` folder.
+Notice that we've used lower and upper-case `f/F` values to being each folder, because that's actually correct by file and tool names, and it really helps with easy tab-autocompletion.
+
+You'll see similar structures inside the `1_trimmedData` and `2_alignedData` directories.
+Have a look if you'd like, and notice the extra directories such as `log` and `bam`.
+We'll get to all of these over the next hour or two.
+
+Before beginning our QC, let's copy our files into the folder we've just created.
+
+```
+cd ~/agingRnaSeq
+cp ~/data/aging_study/* ./0_rawData/fastq/
+```
+
+Notice our convenient use of the wildcard `*` which we came across yesterday which allowed us to copy all the files pretty easily.
+This is one of the reasons that bioinformaticians love to work in bash or a command-line environment.
+Now we've organised ourselves, we're ready to QC our data.
+
 # Quality Control
 
 ## Using FastQC
