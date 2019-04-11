@@ -107,7 +107,7 @@ This is basically the same as another command `samtools flagstat`, but it gives 
 
 3. What information does `samtools stats` provide that `samtools flagstat` does not?
 
-4. How many aligned as a "proper" pair? ..what the hell is a proper pair anyway??
+4. How many aligned as a "proper" pair? ... what the hell is a proper pair anyway??
 
 # Viewing the alignments
 
