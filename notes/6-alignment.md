@@ -119,11 +119,11 @@ samtools sort SRR2003569_chI.bam > SRR2003569_chI.sorted.bam
 samtools index SRR2003569_chI.sorted.bam
 ```
 
-Now we can open IGV by entering `igv` in the terminal.
+Now we can open IGV by entering `igv.sh` in the terminal.
 This will open in a new window which may take a moment or two.
 
 ```
-igv
+igv.sh
 ```
 
 Once you've opened IGV, go to the `Genomes` menu and select `Load genome from file`.
