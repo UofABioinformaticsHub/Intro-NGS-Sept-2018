@@ -79,10 +79,10 @@ drwxrwxr-x 4 trainee trainee 4.0K Apr 10 15:14 ../
 **What did the `-h` flag do in the above commands?**
 
 Here we have 6 files with horribly long names, which is actually quite common in bioinformatics, but are actually very informative.
-For those interested, we are looking at the wild type (`non_mutant`) samples from a larger comparison with a mutant (`K97`), at two timepoints (`6/24` months). 
+For those interested, we are looking at the wild type (`non_mutant`) samples from a larger comparison with a mutant (`K97Gfs`), at two timepoints (`6/24` months). 
 All samples are zebrafish and the dates of sample preparation were in March 2014 or 2016.
-These are all taken from `fem`ale fish, and we will only use the R1 reads, which is from the first round of sequencing as discussed in the video.
-Fortunately <kbd>Tab</kbd> auto-complete will make out lives easier when faced with these types of filenames.
+These are all taken from `fem`ale fish, and we will only use the R1 reads, which is from the first round of sequencing as discussed in the video we watched earlier.
+Fortunately <kbd>Tab</kbd> auto-complete will make our lives easier when faced with these types of filenames.
 
 ### Introducing the FASTQ format
 
@@ -207,7 +207,7 @@ J - Illumina 1.5+ Phred+64, raw reads typically (3, 40)
 L - Illumina 1.8+ Phred+33, raw reads typically (0, 41)
 ```
 
-While this all *looks* confusing ([it is](https://academic.oup.com/nar/article/38/6/1767/3112533)), usually you will have Phred+33 data (most commonly now the Illumina 1.8+ version). You should always check though.
+While this all *looks* confusing ([it is](https://academic.oup.com/nar/article/38/6/1767/3112533)), usually you will have Phred+33 data (most common now since the Illumina 1.8+ version of their Casava software which runs on sequencing machines). You should always check though.
 
 
 ### Interpretation of Phred Scores
