@@ -136,7 +136,7 @@ This is only calculated on a small sample of the library for computational effic
 **Overrepresented Sequences** Here we can see any sequence which are more abundant than would be expected. Sometimes you'll see sequences here that match the adapters used, or you may see highly expressed genes here.
 
 **Adapter Content** This can give a good guide as to our true fragment lengths. If we have read lengths which are longer than our original DNA/RNA fragments (_i.e._ inserts) then the sequencing will run into the adapters.
-If you have used custom adapters, you may need to supply them to `FastQC` as this only searches for common adapter squences.
+If you have used custom adapters, you may need to supply them to `FastQC` as this only searches for common adapter sequences.
 
 **_k_-mer Content**
 This plot was not particularly informative and has been dropped in FastQC >= 0.11.6.
