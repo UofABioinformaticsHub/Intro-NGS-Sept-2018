@@ -234,7 +234,7 @@ This is more easily seen in the following table:
 
 1. Which coding system do you think has been used for the reads that we
 have?
-2. In the Phred+33 coding system, the character "`@`"" is used. Can you think of any
+2. In the Phred+33 coding system, the character "`@`" is used. Can you think of any
 potential issues this would cause when searching within a FASTQ file?
 3. A common threshold for inclusion of a sequence is a Q score >20. Considering the
 millions of sequences obtained from a flowcell, do you think that NGS is likely to be
