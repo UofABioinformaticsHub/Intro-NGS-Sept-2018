@@ -1,7 +1,14 @@
 * TOC
 {:toc}
 
-# Organising Your Data
+# Today's Main Dataset
+
+For the majority of today, we'll be working with an RNA-Seq dataset.
+As mentioned earlier, this is part of a larger aging study from a group researching Alzheimer's Disease, and we have 3 wild-type samples at the 6 month and the 24 month time point.
+These are all zebrafish brain samples and we have downsampled them for today to allow all processes to complete in a reasonable time frame.
+Our primary question will be "what genes are differentially expressed as zebrafish age?", and we are assuming that the zebrafish is a suitable model organism for human aging. 
+
+## Organising Your Data
 
 Before we move into the actual analysis section of today, let's talk briefly about how to structure your analysis.
 During NGS analysis, we will ended up creating multiple files and running multiple scripts, possibly in both `R` and `bash`.
@@ -221,16 +228,29 @@ This is a good example, of why just skimming the first plot may not be such a go
 
 ## Working With Complete Datasets
 
-In our dataset of two samples it is quite easy to think about the whole experiment & assess the overall quality.
+In our dataset, we have 6 samples so it's not too onerous to inspect all 6 individually.
+In the real world, we'll often have much larger datasets and looking at FastQC reports for all samples quickly becomes challenging.
+A commonly used tool for this is [MultiQC](https://multiqc.info/) however, the team in the Bioinformatics Hub has written an R package to enable this called `ngsReports`.
+It will be available on Bioconductor with the next BioC release at the end of the month.
+We have installed this already on your VMs so open a new R script and save it in your `R` folder as 'FastQC_section.R'.
+Once you've done this we can load the package using:
 
-*What about if we had 100 samples?*
+```
+library(ngsReports)
+```
 
-Each .zip archive contains text files with the information which can easily be parsed into an overall summary.
-We could write a script to extract this information if we had the time.
-However, some members of the Bioinformatics Hub have been writing an `R` package to help with this, which is available from https://github.com/UofABioinformaticsHub/ngsReports.
+The simplest method now is to automatically write a summarised report for all of our files using the function `writeHtmlReport()`, which will use a supplied template to combine all of our FastQC reports.
+Enter this function name, and then initialise the quotation marks inside the function `writeHtmlReport("")`.
+Go back inside the quotation marks then use the tab key to navigate to your FastQC reports, then press enter.
+The final command will look something like
 
-We'll publish this soon and using the package is beyond the scope of today.
-However, we've included a [sample report](../data/ngsReports_Fastqc) of a dataset summarised using heatmaps.
-This is simply the default report produced and the package is capable of exploring large datasets relatively easily.
-Have a look at [this report](../data/ngsReports_Fastqc) and see if you can understand any of the plots.
-Call an instructor over if you have any questions.
+```
+writeHtmlReport("0_rawData/FastQC/")
+```
+
+Once this has completed, use your Files pane to navigate to your FastQC reports again & open the file `ngsReports_Fastqc.html` using your Web Browser.
+This will contain a summary of all the files in our dataset.
+Take your time scrolling through the report, and note that each plot is interactive so you can hover over various points and see which file you are looking at.
+
+There is also an interactive Shiny App being developed (https://github.com/UofABioinformaticsHub/fastqcRShiny), however it isn't quite production ready yet.
+
