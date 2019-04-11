@@ -164,14 +164,24 @@ In early versions of the technology, this repeated the sequence identifier, but 
 {:.no_toc}
 
 The only other line in the FASTQ format that really needs some introduction is the quality score information. These are presented as single *ASCII* text characters for simple visual alignment with the sequence.
-We'll explain the meaning of these in a minute.
 
-<!-- TODO(kortschak): Restructure this. 
-OK, I've done edits up to here & given you a nice segue. (Steve)-->
+A significant difference between FASTA and FASTQ is that FASTQ files contain information describing the confidence that can be placed on each base of the sequence, represented as a "Phred" score.
+In raw reads this is a measure of the confidence that the sequencing machine has in calling the base.
+In the early years of genome sequencing this information was kept in separate files, for example [`PHD` or `QUAL`](https://www.phrap.com/phred/) files that represent the confidence as numeric values in the file.
+These quality scoring file types take a lot of space since it can commonly take 3 characters to represent a single base's quality.
 
-In the ASCII text system, each character has a numeric value which we can interpret as an integer, and in this context is the quailty score for the corresponding base. Head to the website with a description of these at [ASCII Code table](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_code_chart).
+The approach that is used in FASTQ is to map each Phred score to a non-whitespace printable character.
+This means that now each base's score will only take a single character.
+FASTQ also places the quality information in the same file as the sequence data.
+The line of characters below the line starting with a `+` is this quality information.
 
-The first 31 ASCII characters are non-printable and contain things like end-of-line marks and tab spacings, and note that the first printable character after the space (character 32) is "`!`"  which corresponds to the value 33. In short, the values 33-47 are symbols like "`!`", "`#`", "`$`" etc, whereas the values 48-57 are the characters 0-9. Next are some more symbols (including "`@`" for the value 64), with the upper case characters representing the values 65-90 and the lower case letters representing the values 97-122.
+FASTQ files make use of the structure of the [ASCII Code table](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_code_chart) that gives each character a unique numerical representation.
+
+The first 32 ASCII characters are non-printable or whitespace and contain things like end-of-line marks and tab spacings.
+From the 33 character until the 126 all the characters have visible representations on the screen.
+By subtracting a constant from the Phred score, we can map each score to a printable characters.
+But what constant?
+At various times people have chosen the sensible value of 33, or an alternative value of 64.
 
 ## The Phred+33/64 Scoring Systems
 
@@ -182,14 +192,14 @@ The Phred system used is determined by the software installed on the sequencing 
 The following table demonstrates the comparative coding scale for the different raw read formats:
 
 ```
-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....................................................
-..........................XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......................
-...............................IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII......................
-.................................JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ......................
-LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL....................................................
-!"#$%and’()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]ˆ_‘abcdefghijklmnopqrstuvwxyz{|}~
-|                         |    |        |                              |                     |
-33                       59   64       73                             104                   126
+  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....................................................
+  ..........................XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......................
+  ...............................IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII......................
+  .................................JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ.....................
+  LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL....................................................
+  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+  |                         |    |        |                              |                     |
+ 33                        59   64       73                            104                   126
 S - Sanger Phred+33, raw reads typically (0, 40)
 X - Solexa Solexa+64, raw reads typically (-5, 40)
 I - Illumina 1.3+ Phred+64, raw reads typically (0, 40)
@@ -203,21 +213,21 @@ While this all *looks* confusing ([it is](https://academic.oup.com/nar/article/3
 ### Interpretation of Phred Scores
 {:.no_toc}
 
-The quality scores are related to the probability of calling an incorrect base through the
-formula  
+As mentioned previously, the Phred quality scores give a measure of the confidence the caller has that the sequence base is correct.
+To do this, the quality scores are related to the probability of calling an incorrect base through the formula  
 
-*Q =* −10log<sub>10</sub>*P*  
+*Q =* −10log₁₀*P*  
 
 where *P* is the probability of calling the incorrect base.
 This is more easily seen in the following table:
 
 | Phred Score | Probability of Incorrect Base Call | Accuracy of Base Call |
 |:----------- |:---------------------------------- |:----------------------|
-| 0           | 1 in 1          | 0%          |
-| 10          | 1 in 10         | 90%         |
-| 20          | 1 in 100        | 99%         |
-| 30          | 1 in 1000       | 99.9%       |
-| 40          | 1 in 10000      | 99.99%      |
+| 0           | 1                                  | 0%                    |
+| 10          | 10¯¹                               | 90%                   |
+| 20          | 10¯²                               | 99%                   |
+| 30          | 10¯³                               | 99.9%                 |
+| 40          | 10¯⁴                               | 99.99%                |
 
 #### Questions
 {:.no_toc}
