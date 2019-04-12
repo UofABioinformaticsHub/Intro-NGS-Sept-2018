@@ -252,5 +252,24 @@ Once this has completed, use your Files pane to navigate to your FastQC reports 
 This will contain a summary of all the files in our dataset.
 Take your time scrolling through the report, and note that each plot is interactive so you can hover over various points and see which file you are looking at.
 
-There is also an interactive Shiny App being developed (https://github.com/UofABioinformaticsHub/fastqcRShiny), however it isn't quite production ready yet.
+There is also an interactive Shiny App we have developed (https://github.com/UofABioinformaticsHub/fastqcRShiny), it isn't quite production ready yet, but is still a useful tool.
+Let's have a look.
 
+```
+library(fastqcRShiny)
+fastqcShiny()
+```
+
+This will open a new tab with our app, and now we'll need to load the data in.
+Navigate to your folder `/home/trainee/agingRnaSeq/0_rawData/FastQC` and select the zip files that you want, which will probably be all of them.
+The plots may take a few seconds to appear, but now you can browse these and change settings very easily.
+Let's explore our `GC Content` plot, so click on `GC Content` in the left-hand pane.
+
+By default, this doesn't include any theoretical GC content but we can add actual theoretical GC content we've estimated from the genome or transcriptome.
+Click the `Normalize to Theoretical GC` checkbox, then select `Transcriptome` and `Drerio` from the species drop-down box.
+
+Below the heatmap, this will automatically show you the individual plot for the first file, but we can check any individual file by clicking on a file in the status bar shown at the left of the heatmap.
+Feel free to use either of these packages for your own work as we'd love you to cite us!
+
+To close the Shiny App, just close the tab.
+RStudio may not quite notice that it's been shutdown, so if it looks like RStudio is hung, click the red stop sign in the Console pane.
