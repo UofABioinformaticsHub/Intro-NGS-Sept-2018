@@ -237,6 +237,38 @@ This is actually a bit simpler than for `AdapterRemoval`, but remember the strat
 
 *See if you can figure out how to move the log files as part of your script too!*
 
+### Bonus Material
+
+The package `ngsReports` is also able to import all of your STAR log files, in particular those with the suffix `Log.final.out`
+
+Try the following command in your RStudio session.
+
+```
+library(ngsReports)
+starlogs <- list.files("2_alignedData/log/", pattern = "Log.final.out", full.names = TRUE)
+alnSummary <- importNgsLogs(starlogs, type = "star")
+alnSummary
+```
+
+Note how all the information contained in the log files we inspected earlier is now in your R session as a convenient data.frame (or `tibble`).
+
+Now you can easily make a summary of your alignment statistics for your thesis!
+
+```
+library(tidyverse)
+library(pander)
+alnSummary %>%
+  mutate(Filename = str_remove(Filename, "fem_Log.final.out")) %>%
+  dplyr::select(
+    Filename, 
+    Total_Mapped_Percent, 
+    Uniquely_Mapped_Reads_Percent, 
+    Percent_Of_Reads_Mapped_To_Multiple_Loci,
+    Percent_Of_Reads_Mapped_To_Too_Many_Loci
+    ) %>%
+  pander(split.tables =Inf, caption = "Alignment Summary")
+ ```
+
 <!--
 # Viewing the alignments
 
