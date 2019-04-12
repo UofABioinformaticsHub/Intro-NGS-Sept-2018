@@ -55,7 +55,7 @@ zcat Danio_rerio.GRCz11.dna.chromosome.2.fa.gz | head
 
 Note that the first line describes the following sequence and begins with a > symbol and the rest contains all the sequence information.
 This should all look quite familiar really.
-Unfortunately, when building an index, STAR (which we'll be using) needs an extracted fasta file, so we'll have to extract this file now
+Unfortunately, when building an index, STAR (which we'll be using today) needs an extracted fasta file, so we'll have to extract this file now
 ```
 gunzip Danio_rerio.GRCz11.dna.chromosome.2.fa.gz
 ```
@@ -68,7 +68,7 @@ The process of constructing an index can take a significant amount of time, alth
 
 We're not too concerned with the details of this step as many references can be obtained, or are provided with a pre-built index.
 On phoenix, a very incomplete collection is the in the folder `/data/biorefs` and we are working to populate this more thoroughly.
-Just copy & paste the following, which should complete within about 2 minutes.
+Just copy & paste the following, which should complete within about 2 minutes, and gives us an index that STAR will be able to use when running alignments.
 
 ```
 STAR \
