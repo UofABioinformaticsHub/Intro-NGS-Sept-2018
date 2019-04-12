@@ -205,11 +205,25 @@ A summary of some of the flag can be obtained using the command `samtools flagst
 samtools flagtsat 2_alignedData/bam/1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_Aligned.sortedByCoord.out.bam 
 ```
 
-### Questions
+#### Questions
 
 1. How many reads aligned to our genome?
 
 2. What information does `samtools stats` provide that `samtools flagstat` does not?
+
+### CIGAR strings
+
+These give useful information about the type of alignment that has been performed on the read.
+In the first few reads we called up earlier, most had the value `..M` where `..` is some number.
+These are the perfect Matches, where the sequence has aligned exactly.
+In particular, RNA Seq alignments will feature CIGAR strings with large numbers followed by `N`.
+This represents a skipped region, and in this context is very likely to be where part of a read aligns to one exon, whilst the other part of the read aligns to another exon, making this commonly indicative of a spliced alignment.
+
+The other abbreviations in common use are I (insertion), D (deletion) and S (soft-clipping).
+Soft-clipping is a strategy used by aligners to mask mismatches, so these are often analagous to substitutions.
+Hard-clipping (H) is an alternative strategy, but the difference between the two is beyond the scope of today.
+
+*What is the interpretation of the first `CIGAR` string in your set of alignments?*
 
 ## Aligning All Samples
 
