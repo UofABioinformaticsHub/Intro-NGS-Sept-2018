@@ -64,16 +64,16 @@ ll -h data/aging_study
 Here you should see output that looks like the following:
 
 ```
-total 832M
-drwxr-xr-x 2 trainee trainee 4.0K Apr 12 04:27 ./
+total 649M
+drwxr-xr-x 2 trainee trainee 4.0K Apr 12 04:57 ./
 drwxrwxr-x 3 trainee trainee 4.0K Apr 12 04:28 ../
--rw-r--r-- 1 trainee trainee 101M Apr 12 04:08 10_non_mutant_Q96_K97del_26mth_26_08_2014_S3_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 116M Apr 12 04:08 11_non_mutant_Q96_K97del_26mth_26_08_2014_S4_fem_R1.fq.gz
 -rw-r--r-- 1 trainee trainee 136M Apr 12 04:08 1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_R1.fq.gz
 -rw-r--r-- 1 trainee trainee 124M Apr 12 04:08 2_non_mutant_Q96_K97del_6mth_10_03_2016_S2_fem_R1.fq.gz
 -rw-r--r-- 1 trainee trainee 135M Apr 12 04:08 3_non_mutant_Q96_K97del_6mth_10_03_2016_S3_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 120M Apr 12 04:08 8_non_mutant_Q96_K97del_26mth_26_08_2014_S1_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 103M Apr 12 04:08 9_non_mutant_Q96_K97del_26mth_26_08_2014_S2_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee  57M Apr 12 04:57 4_non_mutant_Q96_K97del_24mth_23_04_2014_S1_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee  63M Apr 12 04:57 5_non_mutant_Q96_K97del_24mth_23_04_2014_S2_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee  74M Apr 12 04:57 6_non_mutant_Q96_K97del_24mth_23_04_2014_S3_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee  64M Apr 12 04:57 7_non_mutant_Q96_K97del_24mth_23_04_2014_S4_fem_R1.fq.gz
 ```
 
 
