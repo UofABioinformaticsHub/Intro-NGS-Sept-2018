@@ -64,22 +64,23 @@ ll -h data/aging_study
 Here you should see output that looks like the following:
 
 ```
-total 779M
-drwxr-xr-x 2 trainee trainee 4.0K Apr  4 03:36 ./
-drwxrwxr-x 4 trainee trainee 4.0K Apr 10 15:14 ../
--rw-r--r-- 1 trainee trainee  74M Apr  4 03:36 1_non_mutant_K97Gfs_24mth_13_03_2014_S1_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee  96M Apr  4 03:34 2_non_mutant_K97Gfs_24mth_13_03_2014_S2_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee  77M Apr  4 03:35 3_non_mutant_K97Gfs_24mth_13_03_2014_S3_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 147M Apr  4 03:36 4_non_mutant_K97Gfs_6mth_10_03_2016_S1_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 126M Apr  4 03:36 5_non_mutant_K97Gfs_6mth_10_03_2016_S2_fem_R1.fq.gz
--rw-r--r-- 1 trainee trainee 261M Apr  4 03:35 6_non_mutant_K97Gfs_6mth_10_03_2016_S3_fem_R1.fq.gz
+total 832M
+drwxr-xr-x 2 trainee trainee 4.0K Apr 12 04:27 ./
+drwxrwxr-x 3 trainee trainee 4.0K Apr 12 04:28 ../
+-rw-r--r-- 1 trainee trainee 101M Apr 12 04:08 10_non_mutant_Q96_K97del_26mth_26_08_2014_S3_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 116M Apr 12 04:08 11_non_mutant_Q96_K97del_26mth_26_08_2014_S4_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 136M Apr 12 04:08 1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 124M Apr 12 04:08 2_non_mutant_Q96_K97del_6mth_10_03_2016_S2_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 135M Apr 12 04:08 3_non_mutant_Q96_K97del_6mth_10_03_2016_S3_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 120M Apr 12 04:08 8_non_mutant_Q96_K97del_26mth_26_08_2014_S1_fem_R1.fq.gz
+-rw-r--r-- 1 trainee trainee 103M Apr 12 04:08 9_non_mutant_Q96_K97del_26mth_26_08_2014_S2_fem_R1.fq.gz
 ```
 
 
 **What did the `-h` flag do in the above commands?**
 
 Here we have 6 files with horribly long names, which is actually quite common in bioinformatics, but are actually very informative.
-For those interested, we are looking at the wild type (`non_mutant`) samples from a larger comparison with a mutant (`K97Gfs`), at two timepoints (`6/24` months). 
+For those interested, we are looking at the wild type (`non_mutant`) samples from a larger comparison with a mutant (`Q96K97del`), at two timepoints (`6/26` months). 
 All samples are zebrafish and the dates of sample preparation were in March 2014 or 2016.
 These are all taken from `fem`ale fish, and we will only use the R1 reads, which is from the first round of sequencing as discussed in the video we watched earlier.
 Fortunately <kbd>Tab</kbd> auto-complete will make our lives easier when faced with these types of filenames.
@@ -99,20 +100,20 @@ Instead, we'll just pipe that output into `head`, stopping after the first 8 lin
 
 ```
 cd ~/data/aging_study
-zcat 1_non_mutant_K97Gfs_24mth_13_03_2014_S1_fem_R1.fq.gz | head -n8
+zcat 1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_R1.fq.gz | head -n8
 ```
 
 This should give you the following, but please note that some lines may be wrapping around inside your terminal.
 
 ```
-@NB501008:25:H7L25AFXX:1:11101:4066:1049 1:N:0:ACAGATCG
-AGCTGNGAGCGCGAAGATGATTTCCTACATATCTACTTTGTGTTTTCCCGACGCTGCAGGAAATATTTAAGGCTGTTAAGGTTGAGTATTGACAATTTTATGATTTTTTTGGATAATAGGGCGATCATTGAGCAGGGGGCTCAATGTTT
+@NB501008:59:HVG7JBGXY:1:11101:10752:1058 1:N:0:AGCATCAC
+CCTGATTTGAGTCATTGTGGTTTAGGCAATACTATCTGGCTAAAACTATACTTGACTATTGTGATAGTGTGTTCAGAAAACCCTGCTAATAAAGTACACAATGTTGTCACGTCATACGTACAAAACACTACAATTGTAATAACAAAAAAC
 +
-AAAAA#AEEEEEEEEEEEEE6EE<EEEEEEAEEEEEEAEAEEEAEEEE6EEEEEEEEEEEEEEEEEAAEEAEEEEEAEEEEAEE/EEEAEEEEAE/EEEE<E/EAAEEEEEEE<EEE/<E/A<EEAA/AAE/A/<A//<<EE<EEAAEE
-@NB501008:25:H7L25AFXX:1:11101:20742:1049 1:N:0:ACAGATCG
-CTTGANCATGACAATGACTTCGCTGTACTCAAATGGCCTCCACAGTCACCAGAGCTCAATCCAGTAGAGCACCTTTGGG
+AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEEEAAEEAAEEEEEEAEEEEE<
+@NB501008:59:HVG7JBGXY:1:11101:5594:1065 1:N:0:AGCATCAC
+CAAAAATCCTTCATGAAAAAATATTCCAAAACTAAATATTTCACATAAACACATATTTGCCACATGAATTTCCGGCACAGGGATTTTGAGATCGGAAGAGCACACGTCTGAACTCCAGTCACAGCATCACATCTCGTATGCCGTCTTCTG
 +
-AAAAA#EEEAEEEEEEEEEEAEAEEEEEEEEEEEEEEEEEEEEEAEEE<EEAEEEEE/EEEEEE/EA/EEEAE</EEEE
+AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEAEEE<EEEEEEEEEEEAEA<EEEEEEEEEEEEEEEEEEAEEEEEAEAEEEEEEE/EEA/EEEEEEEEAAEEAAA/AAAEEAEEAAEE/EEEE<
 ```
 
 In this output, we have obtained the first 8 lines of the gzipped FASTQ file. This gives a clear view of the FASTQ file format, where *each individual read spans four lines*. These four lines are:
@@ -129,19 +130,19 @@ Let’s have a brief look at each of these lines and what they mean.
 {:.no_toc}
 
 This line begins with an @ symbol and although there is some variability between different sequencing platforms and software versions, it traditionally has several components. 
-For the first sequence in this file, we have the full identifier `@NB501008:25:H7L25AFXX:1:11101:4066:1049 1:N:0:ACAGATCG` which has the following components:
+For the first sequence in this file, we have the full identifier `@NB501008:59:HVG7JBGXY:1:11101:10752:1058 1:N:0:AGCATCAC` which has the following components:
 
 | @NB501008 | This is the ID for the sequencing machine |
-| 25 | The run ID |
-| H7L25AFXX | The flowcell ID |
+| 59 | The run ID |
+| HVG7JBGXY | The flowcell ID |
 | 1    | The flowcell lane |
 | 11101 | The tile within the flowcell lane |
-| 4066 | The x-coordinate of the cluster within the tile |
-| 1049 | The y-coordinate of the cluster within the tile |
+| 10752 | The x-coordinate of the cluster within the tile |
+| 1058 | The y-coordinate of the cluster within the tile |
 | 1 | Indicates that this is the *first read* (1) out of any possible paired reads |
 | N | The read has not been flagged as low quality by Illumina's initial QC |
 | 0 | Control bit (rarely used) |
-| ACAGATCG | The barcode attached to this read |
+| AGCATCAC | The barcode attached to this read |
 
 As seen in the subsequent sections, these pieces of information can be helpful in identifying if any spatial effects have impacted the quality of the reads. By and large you won’t need to utilise most of this information, but it can be handy for times of serious data exploration.
 
