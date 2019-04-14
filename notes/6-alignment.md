@@ -235,7 +235,7 @@ Let's use a similar strategy as before remembering that the key values we need t
 
 This is actually a bit simpler than for `AdapterRemoval`, but remember the strategy we used of building our script up one line at a time to check that we'd specified everything correctly, before actually running our tool.
 
-*See if you can figure out how to move the log files as part of your script too!*
+*See if you can figure out how to move the log files to the `log` directory as part of your script too!*
 
 ### Bonus Material
 
