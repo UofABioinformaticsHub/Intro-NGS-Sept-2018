@@ -11,7 +11,7 @@
 
 Please connect using your University of Adelaide login.
 If you don't have one, please connect using the UofA-Guest network.
-Today's password is `trainroof`
+Today's password is ``
 
 # Course Material
 
@@ -21,7 +21,7 @@ Today's password is `trainroof`
 - [4 Quality Control](notes/4-quality_control)
 - [5 Trimming and Filtering Data](notes/5-filtering_sequence)
 - [6 Aligning Data](notes/6-alignment)
-- [7 Working with Alignments](notes/7-working_with_alignments)
+- [7 Read Summarisation](notes/7-summarisation)
 
 # Course Schedule
 
