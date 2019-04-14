@@ -22,6 +22,7 @@ Today's password is ``
 - [5 Trimming and Filtering Data](notes/5-filtering_sequence)
 - [6 Aligning Data](notes/6-alignment)
 - [7 Read Summarisation](notes/7-summarisation)
+- [8 Differential Gene Expression](notes/8-dge_analysis)
 
 # Course Schedule
 

@@ -1,7 +1,9 @@
 * TOC
 {:toc}
 
-# Read Summarisation
+# Gene Expression Analysis
+
+## Read Summarisation
 
 Now that we have bam files with our reads aligned to the genome, the next step in a classic RNA-seq analysis would be to perform differential gene expression.
 This is where we look for genes that have different expression levels between two (or more) treatment groups.
@@ -13,7 +15,7 @@ The full set of gene descriptions would normally be found on the [Ensembl databa
 This file can be found as `~/data/Danio_rerio.GRCz11.95.chr2.gtf.gz` and now is a good time to *copy this into your directory* `~/genomes/Drerio/`.
 You can use `cp` in your terminal, or use the GUI interface within RStudio for this.
 
-## Feature Counts
+### Feature Counts
 
 There are numerous methods for counting reads which align to genes.
 Common tools include HTSeq and kallisto (which is actually an aligner as well), or this can even be done inside R itself.
@@ -40,7 +42,7 @@ cut -f1,7- ${ALIGNDIR}/counts/counts.out | \
 
 Let's talk through these three steps:
 
-### 1. Find our samples
+#### 1. Find our samples
 {:.no_toc}
 
 Note that we've used a different strategy for finding our files this time.
@@ -48,7 +50,7 @@ Instead of using `$(ls ...)`, we've used `find`.
 This is probably a superior approach and can withstand difficult file paths more easily.
 Output from `find` will give you each result on a new line, so after this we've used `tr` to `tr`anslate line breaks `\n` to spaces.
 
-### 2. Count our alignments
+#### 2. Count our alignments
 {:.no_toc}
 
 Here we've called `featureCounts` and passed several parameters to it.
@@ -64,7 +66,7 @@ The help page is quite extensive for this tool, so feel free to browse it in you
 | `-o ${ALIGNDIR}/counts/counts.out` | The output file |
 | `${SAMPLES}` | The input files |
 
-### 3. Tidy up our output
+#### 3. Tidy up our output
 {:.no_toc}
 
 The output from `featureCounts` contains a few columns which we ignore, even though others may find them useful (exon coordinates, gene lengths etc)
@@ -74,4 +76,3 @@ This will give us data in a nice easy format for importing into R.
 
 **Try and write a script that runs `featureCounts`**.
 Remember to declare all your variables, and **create any directories you need for the output**.
-

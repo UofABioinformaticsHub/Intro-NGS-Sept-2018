@@ -1,0 +1,15 @@
+
+-   TOC {:toc}
+
+Differential Gene Expression Analysis
+=====================================
+
+Fall Into Bioinformatics, 2019
+------------------------------
+
+{:.no\_toc}
+
+Now that we have our data in a nicely formatted file, we can move to `R` and follow a fairly standard workflow. Along the way, we'll come across a few useful packages and data structures which will be applicable in many other contexts.
+
+Data Import
+-----------
