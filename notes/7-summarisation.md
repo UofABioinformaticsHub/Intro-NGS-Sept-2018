@@ -41,6 +41,7 @@ cut -f1,7- ${ALIGNDIR}/counts/counts.out | \
 Let's talk through these three steps:
 
 ### 1. Find our samples
+{:.no_toc}
 
 Note that we've used a different strategy for finding our files this time.
 Instead of using `$(ls ...)`, we've used `find`.
@@ -48,27 +49,23 @@ This is probably a superior approach and can withstand difficult file paths more
 Output from `find` will give you each result on a new line, so after this we've used `tr` to `tr`anslate line breaks `\n` to spaces.
 
 ### 2. Count our alignments
+{:.no_toc}
 
 Here we've called `featureCounts` and passed several parameters to it.
 The help page is quite extensive for this tool, so feel free to browse it in your terminal or on pages 37-42 of [the manual pdf](http://bioinf.wehi.edu.au/subread-package/SubreadUsersGuide.pdf).
 
 | Parameter | Meaning |
 |:---------:|:------- |
-| `-Q 10` | The minimum mapping quality (MAPQ) score for a read to be counted. |
-|         | These scores can vary between aligners, but this value should |
-|         | capture uniquely aligning reads only. These values are generally |
-|         | documented very poorly & cause much confusion. |
-| `-s 2`  | Specifies a reverse stranded library. Only reads which map to the | 
-|         | opposite strand as the gene will be counted. If the library is | 
-|         | forward stranded you would set this to `-s 1`. |
-| `--fracOverlap 1` | The fraction of a read which must overlap a feature. |
-|                   | Here every base must overlap an exon |
+| `-Q 10` | The minimum mapping quality (MAPQ) score for a read to be counted. These scores can vary between aligners, but this value should capture uniquely aligning reads only. These values are generally documented very poorly & cause much confusion. |
+| `-s 2`  | Specifies a reverse stranded library. Only reads which map to the opposite strand as the gene will be counted. If the library is forward stranded you would set this to `-s 1`. |
+| `--fracOverlap 1` | The fraction of a read which must overlap a feature. Here every base must overlap an exon |
 | `-T ${CORES}` | The number of cores we wish to use |
 | `-a ${GTF}` | The gene description file |
 | `-o ${ALIGNDIR}/counts/counts.out` | The output file |
 | `${SAMPLES}` | The input files |
 
 ### 3. Tidy up our output
+{:.no_toc}
 
 The output from `featureCounts` contains a few columns which we ignore, even though others may find them useful (exon coordinates, gene lengths etc)
 In the final line, we're using `cut` to just return columns 1, then everything beyond 7.
