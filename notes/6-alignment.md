@@ -36,8 +36,8 @@ Let's download the reference, but first we'll need to create a directory to hold
 As this may be useful in multiple experiments, it makes sense to place it in a directory outside our current project.
 
 ```
-cd ~
-mkdir -p genomes/Drerio
+mkdir -p ~/genomes/Drerio
+cd ~/genomes/Drerio
 ```
 
 **Note**: If you want the reference genome sequence you can use the command-line program `curl` to download the *D. rerio* genome sequence from the ftp server at [Ensembl](ftp://ftp.ensembl.org/pub/release-95/fasta/danio_rerio/dna/). 
@@ -49,7 +49,6 @@ This way we'll all be able to use the same commands below.
 
 ```
 # Have a look at the first few lines
-cd ~/genomes/Drerio
 zcat Danio_rerio.GRCz11.dna.chromosome.2.fa.gz | head
 ```
 
@@ -63,10 +62,10 @@ gunzip Danio_rerio.GRCz11.dna.chromosome.2.fa.gz
 
 ## Building an Index
 
-As mentioned above read aligners acheive their performance by constructing an index of the reference genome so that initial seed locations can be rapidly found for alignment extension.
+As mentioned above read aligners achieve their performance by constructing an index of the reference genome so that initial seed locations can be rapidly found for alignment extension.
 The process of constructing an index can take a significant amount of time, although only needs to be performed once for each genome being used and so becomes less of a burden if you're reusing the same genome over a period of time.
 
-We're not too concerned with the details of this step as many references can be obtained, or are provided with a pre-built index.
+We're not too concerned with the details of this step as many references can be obtained, or are provided with a prebuilt index.
 On phoenix, a very incomplete collection is the in the folder `/data/biorefs` and we are working to populate this more thoroughly.
 Just copy & paste the following, which should complete within about 2 minutes, and gives us an index that STAR will be able to use when running alignments.
 
@@ -87,7 +86,7 @@ First we'll return to our project folder
 cd ~/agingRnaSeq
 ```
 
-As we did with trimming our files, here's the basic command for aligining one of our samples.
+As we did with trimming our files, here's the basic command for aligning one of our samples.
 
 ```
 STAR \
@@ -102,7 +101,7 @@ STAR \
 This should complete within 2 minutes as well, so while it's running make sure you understand all of the commands given.
 
 **Why have we specified `--readFilesCommand gunzip -c`**<details>
-  This tells STAR to read files in using this command, and emables us to leave our fastq files compressed, saving hard drive (i.e. storage) space.
+  This tells STAR to read files in using this command, and enables us to leave our fastq files compressed, saving hard drive (i.e. storage) space.
   </details>
   
 **What to do you think the line `--outSAMtype BAM SortedByCoordinate` is doing?**<details>
@@ -139,14 +138,14 @@ For now, let's return to our actual alignments, as contained in the BAM file.
 BAM stands for Binary AlignMent and these are our alignments stored in binary.
 There is another type of file called a SAM (Sequence AlignMent) file which is in plain text, but SAM files can become very large and waste our precious storage resources.
 BAM files are the exact same files stored in binary format which enables them to be much smaller.
-This also has the added benefit of being faster for computers to read & perform operations on, as only humas read plain text.
+This also has the added benefit of being faster for computers to read & perform operations on, as only humans read plain text.
 Computers don't.
 
 To look at the contents of a BAM file, we'll need the tool `samtools` which is one of the most heavily utilised command-line tools in the world of bioinformatics.
-Ths tool as a series of commands which we can see if we just type `samtools` into our terminal.
-The one we'll need at this point is `samtools view`, which enables us to take a BAM file and send it to `stdout` as plin text so we can read it.
+This tool as a series of commands which we can see if we just type `samtools` into our terminal.
+The one we'll need at this point is `samtools view`, which enables us to take a BAM file and send it to `stdout` as plain text so we can read it.
 
-Use tab autocomplete to enter the following line:
+Use tab auto-complete to enter the following line:
 
 ```
 samtools view 2_alignedData/bam/1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_Aligned.sortedByCoord.out.bam | head -n2
@@ -202,7 +201,7 @@ If you searched for flags with the value 1, you wouldn't obtain the alignments w
 A summary of some of the flag can be obtained using the command `samtools flagstat`
 
 ```
-samtools flagtsat 2_alignedData/bam/1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_Aligned.sortedByCoord.out.bam 
+samtools flagstat 2_alignedData/bam/1_non_mutant_Q96_K97del_6mth_10_03_2016_S1_fem_Aligned.sortedByCoord.out.bam 
 ```
 
 #### Questions
@@ -220,7 +219,7 @@ In particular, RNA Seq alignments will feature CIGAR strings with large numbers 
 This represents a skipped region, and in this context is very likely to be where part of a read aligns to one exon, whilst the other part of the read aligns to another exon, making this commonly indicative of a spliced alignment.
 
 The other abbreviations in common use are I (insertion), D (deletion) and S (soft-clipping).
-Soft-clipping is a strategy used by aligners to mask mismatches, so these are often analagous to substitutions.
+Soft-clipping is a strategy used by aligners to mask mismatches, so these are often analogous to substitutions.
 Hard-clipping (H) is an alternative strategy, but the difference between the two is beyond the scope of today.
 
 *What is the interpretation of the first `CIGAR` string in your set of alignments?*
@@ -230,8 +229,10 @@ Hard-clipping (H) is an alternative strategy, but the difference between the two
 OK. Now it's time to write a script for aligning all of our samples.
 Let's use a similar strategy as before remembering that the key values we need to find for each sample are:
 
-- The input file
-- The output prefix
+- The input file (`${f}`)
+- The output prefix (maybe call this `PRE` in your script)
+
+Also try removing the string `_R1.fq.gz` from `${f}` when defining your prefix (`${PRE}`)
 
 This is actually a bit simpler than for `AdapterRemoval`, but remember the strategy we used of building our script up one line at a time to check that we'd specified everything correctly, before actually running our tool.
 
