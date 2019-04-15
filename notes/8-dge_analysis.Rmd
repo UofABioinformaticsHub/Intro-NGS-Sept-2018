@@ -6,11 +6,273 @@ output:
     toc: yes
 ---
 
+```{r}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
 
 Now that we have our data in a nicely formatted file, we can move to `R` and follow a fairly standard workflow.
 Along the way, we'll come across a few useful packages and data structures which will be applicable in many other contexts.
 
-## Data Import
+The packages we'll use for this include not only the `tidyverse`, but a few other packages which are hosted on [Bioconductor](www.bioconductor.org).
+We'll also add the `magrittr` and scales packages as they contain some useful additional utilities.
+
+```{r loadPackages}
+library(limma)
+library(edgeR)
+library(AnnotationHub)
+library(tidyverse)
+library(magrittr)
+library(scales)
+library(pander)
+library(ggrepel)
+```
+
+## Data Setup
+
+### Import
+
+First we should import the file we've created using `featureCounts`.
+
+```{r counts}
+counts <- read_tsv("../data/genes.out")
+```
+
+This file has the gene identifiers in the first column, with the remaining columns containing the name of the `bam` file and the number of reads aligning to each gene.
+The first thing we might like to do is tidy up those column names.
+
+```{r setColnames}
+colnames(counts) <- colnames(counts) %>%
+    basename() %>%
+    str_remove("_(10|23)_(03|04)_(2014|2016)_S[0-9]_fem_Aligned.+")
+```
+
+That looks much cleaner without losing any important information.
+
+### Create a DGE List
+
+The main object type we like to use for differential gene expression is a `DGEList`, which stands for Digital Gene Expression List.
+These objects have two mandatory elements, with the first being our counts and the second being our samples.
+In these objects, we can consider the gene IDs to be the rownames and the sample names are the column names.
+Here's one way to create a `DGEList`.
 
 
+```{r dgeList}
+dgeList <- counts %>%
+    as.data.frame() %>%
+    column_to_rownames("Geneid") %>%
+    DGEList() %>%
+    calcNormFactors()
+```
+
+In the first 3 lines, we're just setting the gene IDs as the rownames instead of being a column.
+From there we've turned it into a `DGEList` object, and calculated the normalisation factors, which can be seen in `dgeList$samples`
+If fitting counts using a negative binomial model (for discrete data), these adjust the model based on the library size and count distributions.
+We'll use a different approach for our analysis, but doing this as we form the object is still good practice.
+
+```{r samples}
+dgeList$samples
+```
+
+In the `samples` element, we can set the group variable so let's put our timepoints here.
+
+```{r setGroups}
+dgeList$samples$group <- colnames(dgeList) %>%
+    str_extract("(6|24)mth") %>%
+    factor(levels = c("6mth", "24mth"))
+```
+
+### Add Gene Information
+
+```{r}
+ah <- AnnotationHub() %>%
+    subset(species == "Danio rerio") %>%
+    subset(dataprovider == "Ensembl") %>%
+    subset(rdataclass == "EnsDb")
+```
+
+```{r}
+ensDb <- ah[["AH64906"]]
+genes <- genes(ensDb) %>%
+    subset(seqnames == 2)
+mcols(genes) <- mcols(genes)[c("gene_id", "gene_name", "gene_biotype", "entrezid")]
+```
+
+```{r}
+dgeList$genes <- genes[rownames(dgeList),]
+```
+
+
+
+## Data QC
+
+### Undetectable genes
+
+As you may have noticed, no reads aligned to the 4th gene in this dataset so we can remove it from the data.
+There are probably many more genes in this boat too.
+Let's do a logical test to see how manay genes were not detected in our dataset.
+
+```{r checkZeroes}
+dgeList$counts %>% 
+    rowSums() %>%
+    is_greater_than(0) %>%
+    table()
+```
+
+A common approach would be to remove undetectable genes using some metric, such as *Counts per Million reads*, known as `cpm`.
+We could consider a gene detectable if returning more than 1CPM in every sample from one of the treatment groups.
+Although our dataset is small (all libraries are < 1e6 reads), we usually deal with libraries betwen 20-30million reads, and this would equate to 20-30 reads aligning to a gene, in every sample from a treatment group.
+Here our smallest group is 3 so let's see what would happen if we applied that filter.
+
+```{r checkFiltering}
+dgeList %>%
+    cpm() %>%
+    is_greater_than(1) %>%
+    rowSums() %>%
+    is_greater_than(3) %>%
+    table()
+```
+
+Losing about 1/3 of the genes is pretty common, so let's now apply that to our dataset.
+
+```{r dgeFilt}
+genes2keep <- dgeList %>%
+    cpm() %>%
+    is_greater_than(1) %>%
+    rowSums() %>%
+    is_greater_than(3)
+dgeFilt <- dgeList[genes2keep,] %>% calcNormFactors()
+```
+
+Let's compare the distributions of the two datasets.
+Note the peak at the left inthe first plot around zero.
+This is all of the genes with near-zero counts.
+Then note that this peak is missing the second plot, confirming that we have removed most of the undetectable genes.
+
+```{r plotCPM, fig.cap="Comparison of logCPM distributions before and after filtering for undetectable genes. Values o the x-axis represent logCPM"}
+par(mfrow = c(1,2))
+dgeList %>%
+    cpm(log = TRUE) %>%
+    plotDensities(legend = FALSE, main = "A. Before Filtering")
+dgeFilt %>%
+    cpm(log = TRUE) %>%
+    plotDensities(legend = FALSE, main = "B. After Filtering")
+par(mfrow = c(1,1))
+```
+
+
+### Library Sizes
+
+Let's check our library sizes.
+It does appear that these being prepared on different days has given one of our groups more reads.
+This is not ideal, but using a normalised value like `cpm` does largely avoid any issues introduced by this.
+
+```{r plotLibSizes, fig.cap = "Library Sizes after filtering for undetectable genes."}
+dgeFilt$samples %>%
+    ggplot(aes(group, lib.size, fill = group)) +
+    geom_boxplot() +
+    scale_y_continuous(labels = comma) +
+    labs(x = "Timepoint", y = "Library Size") +
+    theme_bw() 
+```
+
+### PCA
+
+Next we might choose to perform a Principal Component Analysis on our data, commonly abbreviated to PCA.
+This time, let's take our CPM values & asses them on the log2 scale to make sure the results are not heavily skewed by highly expressed genes.
+
+```{r}
+pca <- dgeFilt %>%
+    cpm(log = TRUE) %>%
+    t() %>%
+    prcomp() 
+```
+
+In our DGEList, we have the genes as the variables of interest for our main analysis, however for the PCA we're looking at out samples as the variables of interest.
+The third line i the above code chunk has transposed the matrix returned by `cpm()` to place the samples as the rows, which is where the function `prcomp()` expects to see the variables of interest.
+
+A quick inspection of the results shows tht the first two components capture most of the varibility, as expected.
+Beyond this observation, the details of PCA are beyond what we can cover here.
+
+```{r}
+summary(pca)$importance %>% pander()
+```
+
+We can also plot our results to see if samples group clearly with the treatment group based on our main two principal components.
+Any clear separation can be considered a positive sign that we will find differentially expressed genes.
+
+```{r plotPCA, fig.cap = "PCA showing two clear groups in the data"}
+pca$x %>%
+    as.data.frame() %>%
+    rownames_to_column("sample") %>%
+    as_tibble() %>%
+    dplyr::select(sample, PC1, PC2) %>%
+    left_join(rownames_to_column(dgeFilt$samples, "sample")) %>%
+    ggplot(aes(PC1, PC2, colour = group)) +
+    geom_point(size = 3) +
+    theme_bw()
+```
+
+## Differential Expression
+
+In the above, we have read counts which are a discrete value and formally cannot be modelled using the assumption of normally distributed data.
+This rules out linear models and t-tests, so many packages have been developed which use the negative binomial distribution to model these counts.
+An alternative was proposed by Law et al, where they apply a system of weights to the counts which allow the assumption of normality to be applied.
+This method is called `voom` and we'll use this today.
+
+```{r}
+voomData <- voom(dgeFilt)
+```
+
+Note that this has added a design matrix to the data, and we can use this to perform a simple linear regression on each gene, which amounts to a t-test in this dataset.
+From here it's a simple matter to code the analysis and inspect results.
+
+```{r}
+topTable <- voomData %>% 
+    lmFit() %>%
+    eBayes %>%
+    topTable(coef = "group24mth", n = Inf) %>%
+    as_tibble()
+```
+
+```{r}
+topTable <- topTable %>%
+    unite("Range", ID.start, ID.end, sep = "-") %>%
+    unite("Location", ID.seqnames, Range, ID.strand, sep = ":") %>%
+    dplyr::select(Geneid = ID.gene_id, 
+                  Symbol = ID.gene_name,
+                  AveExpr, logFC, t, P.Value, 
+                  FDR = adj.P.Val, 
+                  Location, 
+                  Entrez = ID.entrezid)
+```
+
+```{r}
+topTable %>%
+    mutate(DE = FDR < 0.05) %>%
+    ggplot(aes(logFC, -log10(P.Value), colour = DE)) +
+    geom_point() +
+    geom_text_repel(data = . %>% 
+                        dplyr::filter(DE) %>%
+                        dplyr::filter(-log10(P.Value) > 4 | abs(logFC) > 2.5),
+                    aes(label = Symbol)) + 
+    scale_colour_manual(values = c("grey", "red")) +
+    theme_bw() +
+    theme(legend.position = "none")
+```
+
+```{r}
+topTable %>%
+    mutate(DE = FDR < 0.05) %>%
+    arrange(desc(P.Value)) %>%
+    ggplot(aes(AveExpr, logFC, colour = DE)) +
+    geom_point(alpha = 0.5) +
+    geom_text_repel(data = . %>% 
+                        dplyr::filter(DE) %>%
+                        dplyr::filter(abs(logFC) > 2 | AveExpr > 14),
+                    aes(label = Symbol)) + 
+    scale_colour_manual(values = c("grey", "red")) +
+    theme_bw() +
+    theme(legend.position = "none")
+```
 
