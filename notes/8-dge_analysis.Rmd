@@ -6,7 +6,7 @@ output:
     toc: yes
 ---
 
-```{r}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(results = "hide", message = FALSE, warning = FALSE)
 ```
 
@@ -170,14 +170,14 @@ To fix this, we just use the `rownames` of our `DGEList` to reorder the `genes` 
 We can also just create the new element `$genes` by simply typing it & providing a value.
 `R` will not check that these two objects are compatible, so you have to be on your toes here.
 
-```{r}
+```{r addGenes}
 dgeList$genes <- genesGR[rownames(dgeList),]
 ```
 
 Now when we subset our `DGEList` by gene, the `genes` element will also be subset accordingly and the initial relationships will be maintained.
 
-```{r}
-dgeList["ENSDARG00000100145",]
+```{r dge1to4}
+dgeList[1:4,]
 ```
 
 
@@ -185,9 +185,10 @@ dgeList["ENSDARG00000100145",]
 
 ### Undetectable genes
 
-As you may have noticed, no reads aligned to the 4th gene in this dataset so we can remove it from the data.
+As you may have noticed, no reads aligned to the 4th gene in this dataset so we should really remove it from the data.
 There are probably many more genes in this boat too.
 Let's do a logical test to see how many genes were not detected in our dataset.
+First we'll add up the total counts for every gene and see how many received at least one count.
 
 ```{r checkZeroes}
 dgeList$counts %>% 
@@ -196,10 +197,16 @@ dgeList$counts %>%
     table()
 ```
 
+Clearly, a good proportion of our genes were not expressed in our original samples.
 A common approach would be to remove undetectable genes using some metric, such as *Counts per Million reads*, known as `cpm`.
 We could consider a gene detectable if returning more than 1CPM in every sample from one of the treatment groups.
 Although our dataset is small (all libraries are < 1e6 reads), we usually deal with libraries between 20-30million reads, and this would equate to 20-30 reads aligning to a gene, in every sample from a treatment group.
 Here our smallest group is 3 so let's see what would happen if we applied that filter.
+
+First we'll calculate the `cpm` for each gene in each sample, and then we'll apply a logical test to each value checking whether it's greater than 1.
+Next, we'll add these up for each gene (i.e. row) and this will give us the total number of samples for each gene, that passed our criteria of $cpm > 1$.
+Finally, we'll check for genes which passed our criteria in more than 3 samples, as our smallest group is 3. 
+We could also have used `is_weakly_greater_than()` which would test for equality ($\geq$) instead of strictly greater than ($>$).
 
 ```{r checkFiltering}
 dgeList %>%
@@ -211,6 +218,9 @@ dgeList %>%
 ```
 
 Losing about 1/3 of the genes is pretty common, so let's now apply that to our dataset.
+The object `genes2keep` below will be a `logical` vector deciding on whether we keep the gene for downstream analysis, based purely on whether we consider the gene to be detectable.
+We'll create a new `DGEList` object by subsetting our primary one.
+This way if we change our mind about our filtering strategy, we don't have to rerun all the code above.
 
 ```{r dgeFilt}
 genes2keep <- dgeList %>%
@@ -221,10 +231,10 @@ genes2keep <- dgeList %>%
 dgeFilt <- dgeList[genes2keep,] %>% calcNormFactors()
 ```
 
-Let's compare the distributions of the two datasets.
-Note the peak at the left in the first plot around zero.
-This is all of the genes with near-zero counts.
-Then note that this peak is missing the second plot, confirming that we have removed most of the undetectable genes.
+Let's compare the distributions of the two datasets, using cpm on the log2 scale.
+In the following the command `par(mfrow = c(1,2))` is a base graphics approach and sets the plotting `par`ameters to be a `m`ulti=`f`eature layout, with 1 row and 2 columns.
+We've done this because the convenient function `plotDensities()` uses base graphics not `ggplot2`.
+It's nowhere near as pretty.
 
 ```{r plotCPM, fig.cap="Comparison of logCPM distributions before and after filtering for undetectable genes. Values o the x-axis represent logCPM"}
 par(mfrow = c(1,2))
@@ -237,12 +247,15 @@ dgeFilt %>%
 par(mfrow = c(1,1))
 ```
 
+Note the peak at the left in the first plot around zero.
+This is all of the genes with near-zero counts.
+Then note that this peak is missing the second plot, confirming that we have removed most of the undetectable genes.
 
 ### Library Sizes
 
-Let's check our library sizes.
+Next we should check our library sizes.
 It does appear that these being prepared on different days has given one of our groups more reads.
-This is not ideal, but using a normalised value like `cpm` does largely avoid any issues introduced by this.
+This is not ideal but most modelling approaches will be able to handle this.
 
 ```{r plotLibSizes, fig.cap = "Library Sizes after filtering for undetectable genes."}
 dgeFilt$samples %>%
@@ -253,12 +266,15 @@ dgeFilt$samples %>%
     theme_bw() 
 ```
 
+We've used he function `comma` from the `scales` package here to help us interpret the y-axis.
+For most vertebrate datasets, you'd expect >20million reads, but as we've given you a significantly reduced dataset, these numbers are pretty acceptable.
+
 ### PCA
 
 Next we might choose to perform a Principal Component Analysis on our data, commonly abbreviated to PCA.
-This time, let's take our CPM values & asses them on the log2 scale to make sure the results are not heavily skewed by highly expressed genes.
+This time, let's take our CPM values & asses them on the log2 scale to make sure our PCA results are not heavily skewed by highly expressed genes.
 
-```{r}
+```{r pca}
 pca <- dgeFilt %>%
     cpm(log = TRUE) %>%
     t() %>%
@@ -266,19 +282,23 @@ pca <- dgeFilt %>%
 ```
 
 In our DGEList, we have the genes as the variables of interest for our main analysis, however for the PCA we're looking at out samples as the variables of interest.
-The third line in the above code chunk has transposed the matrix returned by `cpm()` to place the samples as the rows, which is where the function `prcomp()` expects to see the variables of interest.
+The third line in the above code chunk has transposed (`t()`) the matrix returned by `cpm(log = TRUE)` to place the samples as the rows, which is where the function `prcomp()` expects to see the variables of interest.
 
 A quick inspection of the results shows that the first two components capture most of the variability, as expected.
 Beyond this observation, the details of PCA are beyond what we can cover here.
 
-```{r}
+```{r summaryPca, results='asis'}
 summary(pca)$importance %>% pander(split.tables = Inf)
 ```
 
 We can also plot our results to see if samples group clearly with the treatment group based on our main two principal components.
 Any clear separation can be considered a positive sign that we will find differentially expressed genes.
+The following chunk wraps the plotting inside `plotly::ggplotly()` which takes a `ggplot` object and makes it interactive.
+You may notice that `label` was included as a plotting aesthetic, but no labels were added as a layer in ggplot2.
+These will instead be added once the plot is made interactive.
+Interactive plots will only be interactive when compiling an RMarkdown document to an html format, and will remain static if rendering to an MS Word document or pdf.
 
-```{r plotPCA, fig.cap = "PCA showing two clear groups in the data"}
+```{r plotPCA, fig.cap = "PCA showing two clear groups in the data", results='asis'}
 plotly::ggplotly(
     pca$x %>%
         as.data.frame() %>%
@@ -292,21 +312,32 @@ plotly::ggplotly(
 )
 ```
 
+In many workflows you may see the function `plotMDS()` which produces a similar plot to the above.
+Multi-Dimensional Scaling can look similar to PCA, but asks a slightly different question of the data.
+Usually results found under both methods will reveal similar patterns in your data.
+`plotMDS()` doesn't quite give you as pretty a picture as the above either.
+
 ## Differential Expression
 
-In the above, we have read counts which are a discrete value and formally cannot be modelled using the assumption of normally distributed data.
-This rules out linear models and t-tests, so many packages have been developed which use the negative binomial distribution to model these counts.
-An alternative was proposed by Law et al, where they apply a system of weights to the counts which allow the assumption of normality to be applied.
+In the previous sections we have worked with read counts, which are a discrete value and formally cannot be modelled using the assumption of normally distributed data.
+This rules out linear models and t-tests for RNA-Seq, so many packages have been developed which use the negative binomial distribution to model these counts (e.g. `edgeR` and `DESeq2`).
+An alternative was proposed by [Law et al](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29), where they apply a system of weights to the counts which allow the assumption of normality to be applied.
 This method is called `voom` and we'll use this today.
 
-```{r}
+```{r voom}
 voomData <- voom(dgeFilt)
 ```
 
-Note that this has added a design matrix to the data, and we can use this to perform a simple linear regression on each gene, which amounts to a t-test in this dataset.
+Note that this has added a design matrix to the data based on our `groups` column, and we can use this to perform a simple linear regression on each gene, which amounts to a t-test in this dataset.
 From here it's a simple matter to code the analysis and inspect results.
 
-```{r}
+A lot of analysis is performed in the following code chunk:
+
+1. We'll use `lmFit()` to fit the model for every gene using the design matrix in `voomData`. Note that we're not using CPM, but are instead fitting the counts directly, after incorporation of the voom-derived weights.
+2. Next we moderate the variances using an empirical Bayes approach. This uses the assumption that our variance estimates will a mix of overestimates and underestimates, and shrinks them all towards a central value. As a strategy, this is widely accepted and has been shown to increase power and reduce false positives.
+3. Finally, we'll create a list of all genes with a summary of the results which we then convert to a `tibble`. The last step will remove the gene IDs (i.e. the row names), but because we've included our gene information in the `DGEList` object, this will be added to he results and we'll still know which gene is which.
+
+```{r topTable}
 topTable <- voomData %>% 
     lmFit() %>%
     eBayes %>%
@@ -314,7 +345,12 @@ topTable <- voomData %>%
     as_tibble()
 ```
 
-```{r}
+Note that the GRanges information has been coerced into columns to form a `data.frame`/`tibble` and that looks a bit messy.
+To tidy things up, the following code will join all of the genomic co-ordinates into a single column, rename a few columns on the fly and by not asking for `ID.width` & `ID.gene_biotype`, we've saved ourselves dealing with a few redundant columns.
+We could actually add this to the chunk above to save forming then modifying an `R` object, but it's been left separate for clarity.
+
+
+```{r editTopTab}
 topTable <- topTable %>%
     unite("Range", ID.start, ID.end, sep = "-") %>%
     unite("Location", ID.seqnames, Range, ID.strand, sep = ":") %>%
@@ -326,11 +362,16 @@ topTable <- topTable %>%
                   Entrez = ID.entrezid)
 ```
 
-```{r}
+Now that we have our ranked list of genes, we should really inspect these visually.
+A commonly used plot is a volcano plot, where we place the logFC estimates on the x-axis, and the position on the y-axis relates to the strength of statistical significance.
+Before plotting, we added a simple column called `DE` to indicate whether we considered a gene to be DE, based purely on an FDR-adjusted p-value < 0.05.
+We'll use this to colour points.
+
+```{r volcanoPlot, fig.cap="Volcano plot showing DE genes between the two timepoints"}
 topTable %>%
     mutate(DE = FDR < 0.05) %>%
     ggplot(aes(logFC, -log10(P.Value), colour = DE)) +
-    geom_point() +
+    geom_point(alpha = 0.5) +
     geom_text_repel(data = . %>% 
                         dplyr::filter(DE) %>%
                         dplyr::filter(-log10(P.Value) > 4 | abs(logFC) > 2.5),
@@ -340,7 +381,11 @@ topTable %>%
     theme(legend.position = "none")
 ```
 
-```{r}
+As another perspective, we might like to see whether these genes are at the high or low end of the range for expression values.
+This is often referred to as an MD plot, which stands for `M`ean expression vs `D`ifference, where difference is more commonly referred to as logFC.
+We've added an `arrange()` call in the following to ensure our DE genes are plotted last and are the most visible in our figure.  
+
+```{r plotMD, fig.cap="Mean-Difference plot showing fold-change potted against expression level. Genes considered as DE are highlighted in red."}
 topTable %>%
     mutate(DE = FDR < 0.05) %>%
     arrange(desc(P.Value)) %>%
@@ -357,18 +402,43 @@ topTable %>%
     theme(legend.position = "none")
 ```
 
+If were happy with our results, we could exprt this list using `write_csv()` or `write_tsv()`.
+We could also produce a short table summarising the "big guns" in the dataset.
+As there are more than 100 genes considered as DE here, let's restrict to those with logFC beyond the range $\pm1$, which equates to 2-fold up or down-regulation.
+
+```{r printTopTab, results='asis'}
+topTable %>%
+    dplyr::filter(FDR < 0.05, abs(logFC) > 1) %>%
+    dplyr::select(ID = Geneid, Symbol, AveExpr, logFC, P.Value, FDR) %>%
+    pander(caption = paste("The", nrow(.), "most DE genes when ranked by p-value, and filtered on a logFC beyond the range $\\pm1$"))
+```
+
+
+
 ## GO Enrichment
 
-Bioconductor doesn't maintain a mapping for GO terms for *Danio rerio* using EntrezGene identifiers.
+In order to connect our genes to any larger biological behaviours, enrichments tests are commonly performed, with Gene Ontology (GO) terms being a common way to describe biology.
+The tool we'll use today is the function `goana()` from the package `limma` which essentially performs Fisher's Exact Test as an enrichment test. 
+Internally it is framed as a hypergeometric distribution, which is equivalent.
 
-```{r}
+GO annotations are generally more extensive for EntrezGene identifiers than for Ensembl identifiers, so `goana()` has been implemented to only accept EntrezGene IDs.
+The function also relies on specific databases for mapping gene IDs to GO terms, however this package does not exist for zebrafish. AS a result, we'll map our Ensembl IDs to the human equivalent EntrezGene IDs, and we'll assume that conservation of function across species holds, which is not unreasonable in many cases.
+
+We've prepared this object for you, and it's hosted as part of today's material at https://uofabioinformaticshub.github.io/Intro-NGS-fib.
+However, it's in the directory `data` and is named `ens2Entrez.tsv`.
+We can form this directly into a file.path, then pass it to `read_tsv()` as a `url()` do we can load directly from the remote repository without downloading the file.
+
+```{r ens2Entrez}
 ens2Entrez <- file.path("https://uofabioinformaticshub.github.io/Intro-NGS-fib", "data", "ens2Entrez.tsv") %>% 
     url() %>%
     read_tsv()
 ```
 
+For `goana()` to analyse our data, we need to provide a list of DE genes, and then the larger body (i.e. universe) of genes from which they are drawn.
+In general, this should be the list of genes detected as expressed in your sample, not the complete genome.
+Ask a tutor if you don't understand why.
 
-```{r}
+```{r de&uv}
 de <- topTable %>%
     dplyr::filter(FDR < 0.05) %>%
     dplyr::select(Geneid) %>%
@@ -384,22 +454,35 @@ uv <- topTable %>%
     unique()
 ```
 
-```{r}
-goResults <- goana.default(de, uv, "Hs")
+From here, we simply pass our two gene sets to `goana()` and a set of unsorted results will be returned without any adjustment of p-values for multiple comparisons.
+
+- The column `Ont` indicates whether the term belongs to the Biological Process, Cellular Component or Molecular Function ontology 
+- The column `N` counts how many genes in the "universe" mapped to each GO term
+- The column `DE` shows how many genes in the set of DE genes mapped to each GO term.
+- The column `P.DE` is the results of the enrichment test for each term, and is not adjusted for multiple comparisons.
+
+```{r goResults}
+goResults <- goana(de = de, universe = uv, species = "Hs")
 ```
 
-```{r}
+```{r headGo}
 head(goResults)
 ```
 
-```{r}
+This will contain numerous GO terms not found in our set of DE genes.
+We can remove these from the data and in the following, we're only considering GO terms with more than one gene mapping to it, to ensure we're capturing biology across pathways, rather than just single genes with relatively unique functions.
+After filtering, we need to adjust our p-value, filter our results, then return a table to share with our collaborators.
+
+```{r printGO, results='asis'}
 goResults %>% 
-    rownames_to_column("go_id") %>%
+    rownames_to_column("GO ID") %>%
     as_tibble() %>%
     dplyr::filter(DE > 1) %>%
     arrange(P.DE) %>%
     mutate(FDR = p.adjust(P.DE, "fdr")) %>%
     dplyr::filter(FDR < 0.05) %>%
-    pander(caption = "GO Terms considered as enriched in the set of differentially expressed genes")
+    mutate(`GO ID` = str_replace(`GO ID`, ":", "\\\\:")) %>%
+    pander(caption = "GO Terms potentially enriched in the set of differentially expressed genes")
 ```
 
+NB: In the above, I added an escaping `\` to the colon (`:`) in the GO ID. This is optional, but prevents markdown from trying to render the ID as a hyperlink when knitting to html.
