@@ -207,15 +207,17 @@ We can also plot our results to see if samples group clearly with the treatment 
 Any clear separation can be considered a positive sign that we will find differentially expressed genes.
 
 ```{r plotPCA, fig.cap = "PCA showing two clear groups in the data"}
-pca$x %>%
-    as.data.frame() %>%
-    rownames_to_column("sample") %>%
-    as_tibble() %>%
-    dplyr::select(sample, PC1, PC2) %>%
-    left_join(rownames_to_column(dgeFilt$samples, "sample")) %>%
-    ggplot(aes(PC1, PC2, colour = group)) +
-    geom_point(size = 3) +
-    theme_bw()
+plotly::ggplotly(
+    pca$x %>%
+        as.data.frame() %>%
+        rownames_to_column("sample") %>%
+        as_tibble() %>%
+        dplyr::select(sample, PC1, PC2) %>%
+        left_join(rownames_to_column(dgeFilt$samples, "sample")) %>%
+        ggplot(aes(PC1, PC2, colour = group, label = sample)) +
+        geom_point(size = 3) +
+        theme_bw()
+)
 ```
 
 ## Differential Expression
@@ -291,7 +293,6 @@ Bioconductor doesn't maintain a mapping for GO terms for *Danio rerio* using Ent
 ens2Entrez <- file.path("https://uofabioinformaticshub.github.io/Intro-NGS-fib", "data", "ens2Entrez.tsv") %>% 
     url() %>%
     read_tsv()
-# closeAllConnections()
 ```
 
 
