@@ -17,7 +17,6 @@ Any experienced bioinformatician will have their own approach to organising ever
 An example of how some in the Bioinformatics Hub structure their experiments is located at https://github.com/UofABioinformaticsHub/ngsSkeleton.
 Let's copy this to our VMs and have a look at what we have.
 
-<!-- Dan, can you please change this so it uses curl? I can't figure it out... -->
 ```
 cd ~
 wget https://github.com/UofABioinformaticsHub/ngsSkeleton/archive/master.zip
@@ -26,6 +25,7 @@ mv ngsSkeleton-master agingRnaSeq
 rm master.zip
 ls
 ```
+We are using `wget` here instead of `curl` because `wget` does some clever things behind the scenes that resolve this URL correctly that `curl` does not do.
 
 **Make sure you understand what each line of the above has done. Ask a tutor if you need help.**
 
