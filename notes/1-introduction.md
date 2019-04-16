@@ -35,7 +35,15 @@ Today your helpers will be
 
 - Steve Pederson (Bioinformatics Hub)
 - Dan Kortschak (Bioinformatics Hub)
-- Jimmy Breen (Bioinformatics Hub / SAHMRI)
+- Jimmy Breen (Bioinformatics Hub / Med School / SAHMRI)
+- Nathan Watson-Haigh (Bioinformatics Hub)
+- Ning Liu Bioinformatics Hub / Med School)
+- Nhi Hin (Bioinformatics Hub)
+- Sabrina Ng (School of Biological Sciences)
+- Lloyd Low (School of Animal & Vet. Sciences)
+- Rick Tearle (School of Animal & Vet. Sciences)
+- Terry Bertozzi (SA Museum)
+- Justin Bogias (Bioinformatics Hub / Med School)
 
 ## Recommendations For Working
 
