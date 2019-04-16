@@ -7,15 +7,15 @@ output:
 ---
 
 ```{r}
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(results = "hide", message = FALSE, warning = FALSE)
 ```
 
 
 Now that we have our data in a nicely formatted file, we can move to `R` and follow a fairly standard workflow.
-Along the way, we'll come across a few useful packages and data structures which will be applicable in many other contexts.
+Along the way, we'll come across a few useful packages, data structures and coding tricks which will be applicable in many other contexts.
 
-The packages we'll use for this include not only the `tidyverse`, but a few other packages which are hosted on [Bioconductor](www.bioconductor.org).
-We'll also add the `magrittr` and scales packages as they contain some useful additional utilities.
+The packages we'll use for this include not only the `tidyverse`, but a few other packages which are hosted on [Bioconductor](www.bioconductor.org), such as `limma`, `edgeR` and `AnnotationHub`.
+We'll also add the `magrittr`,`pander` and `scales` packages as they contain some useful additional utilities.
 
 ```{r loadPackages}
 library(limma)
@@ -52,13 +52,13 @@ colnames(counts) <- colnames(counts) %>%
     str_remove("_(10|23)_(03|04)_(2014|2016)_S[0-9]_fem_Aligned.+")
 ```
 
-That looks much cleaner without losing any important information.
+That looks much cleaner and we haven't lost any important information.
 
 ### Create a DGE List
 
 The main object type we like to use for differential gene expression is a `DGEList`, which stands for Digital Gene Expression List.
 These objects have two mandatory elements, with the first being our counts and the second being our samples.
-In these objects, we can consider the gene IDs to be the rownames and the sample names are the column names.
+In these objects, we can consider the gene IDs to be the row names and the sample names are the column names.
 Here's one way to create a `DGEList`.
 
 
@@ -70,16 +70,16 @@ dgeList <- counts %>%
     calcNormFactors()
 ```
 
-In the first 3 lines, we're just setting the gene IDs as the rownames instead of being a column.
-From there we've turned it into a `DGEList` object, and calculated the normalisation factors, which can be seen in `dgeList$samples`
-If fitting counts using a negative binomial model (for discrete data), these adjust the model based on the library size and count distributions.
-We'll use a different approach for our analysis, but doing this as we form the object is still good practice.
+In the first 3 lines, we're just setting the gene IDs as the row names instead of being a column.
+From there we've turned the remaining columns (i.e. the counts) into a `DGEList` object, and calculated the normalisation factors, which can be seen in `dgeList$samples`
+If fitting counts using a negative binomial model (for discrete data), these `norm.factors` are included in the model to adjust for variations in the library size and count distributions.
+We'll use a different approach for our analysis today, but doing this as we form the object is still good practice, in case we change tack halfway through our planned analysis.
 
 ```{r samples}
 dgeList$samples
 ```
 
-In the `samples` element, we can set the group variable so let's put our timepoints here.
+In the `samples` element, we can also set the group variable so let's put our time-points here.
 
 ```{r setGroups}
 dgeList$samples$group <- colnames(dgeList) %>%
@@ -89,24 +89,96 @@ dgeList$samples$group <- colnames(dgeList) %>%
 
 ### Add Gene Information
 
-```{r}
-ah <- AnnotationHub() %>%
+A common, but optional element that we can include in a `DGEList` is one called `genes`.
+This is where we can place information such as the genomic location, the gene symbol and anything else we think is going to be relevant.
+First, we need to find this information though, and we'll use the package `AnnotationHub` which contains the *metadata* for all of the annotation packages included in Bioconductor.
+
+```{r ah}
+ah <- AnnotationHub()
+```
+
+```{r viewAh}
+ah
+```
+
+This structure is quite advanced, but if you just type in the object name, you'll get an informative summary of all available annotation packages.
+Note that we have numerous data providers, species and data classes.
+The column on the left is also a shorthand ID we can use to retrieve any of these annotation objects.
+
+We can also subset the Annotation Hub object to help us find what we're looking for.
+In the following code, we're restricting our search to zebrafish, with data held sourced from Ensembl.
+The final line looks for an object of class `EnsDb` which is a database object containing a large amount of information, but in a relatively user-friendly way.
+
+```{r subsetAh}
+ah %>%
     subset(species == "Danio rerio") %>%
     subset(dataprovider == "Ensembl") %>%
     subset(rdataclass == "EnsDb")
 ```
 
-```{r}
+The last of these objects contains data from release 94, which will be close enough to match the data we have generated so far (which was Ensembl 95).
+Ideally, these should be the same, but there is no EnsDb object for Ensembl 95. I' sure one will be made available in the next release of Bioconductor.
+Let's use this annotation object and define it as the object `ensDb`
+
+```{r ensDb}
 ensDb <- ah[["AH64906"]]
-genes <- genes(ensDb) %>%
-    subset(seqnames == 2)
-mcols(genes) <- mcols(genes)[c("gene_id", "gene_name", "gene_biotype", "entrezid")]
+ensDb
 ```
+
+There are many helper functions for extracting data from this package, such as `transcripts()`, `promoters()` and `genes()`.
+We want gene information today, so let's just use that function. 
+Note that after we obtain the data, we're using `subset()` to only keep the data from chromosome 2.
+
+```{r genes}
+genesGR <- genes(ensDb) %>%
+    subset(seqnames == 2)
+```
+
+This object is a `GenomicRanges` (or `GRanges`) object and these are the brad & butter of genomic analysis in R. 
+We could spend hours just looking at these, but the main point is that on the left of the "pipes" we have the chromosome (`seqnames`) followed by the range of bases the genes is contained within and the strand the gene is located on.
+This is the core `GRanges` element, and we could simply return this information using the function `granges()`
+
+```{r granges}
+granges(genesGR)
+```
+
+Underlying each `GRanges` object is a `seqinfo` object and these contain all of the genomic information about chromosome names and lengths.
+If comparing two `GRanges` objects, they must have identical `seqinfo` objects otherwise the comparison will return an error.
+This actually makes perfect sense, but can create issues when comparing data from UCSC, NCBI and Ensembl as they all use different formats for their chromosome names, even though they're based on the same assemblies.
+
+```{r seqinfo}
+seqinfo(genesGR)
+```
+
+To the right of the pipes, we have the metadata columns, accessed using the function `mcols()`.
+Notice this returns a `DataFrame` which is a slightly more controlled version of a `data.frame`.
+The differences are beyond the scope of this course, but they can easily be coerced to a `data.frame` using `as.data.frame`.
+If you want to use the `dplyr` functions on them, you will need to go through this step.
+
+```{r mcols}
+mcols(genesGR)
+```
+
+When we place this information into our `DGEList` object, some of those columns look a bit redundant, so let's just keep four of the most useful ones.
+
+```{r newMcols}
+mcols(genesGR) <- mcols(genesGR)[c("gene_id", "gene_name", "gene_biotype", "entrezid")]
+```
+
+If we wish to add this to our `DGEList`, note that the order of genes will be completely different.
+To fix this, we just use the `rownames` of our `DGEList` to reorder the `genes` object.
+We can also just create the new element `$genes` by simply typing it & providing a value.
+`R` will not check that these two objects are compatible, so you have to be on your toes here.
 
 ```{r}
-dgeList$genes <- genes[rownames(dgeList),]
+dgeList$genes <- genesGR[rownames(dgeList),]
 ```
 
+Now when we subset our `DGEList` by gene, the `genes` element will also be subset accordingly and the initial relationships will be maintained.
+
+```{r}
+dgeList["ENSDARG00000100145",]
+```
 
 
 ## Data QC
@@ -115,7 +187,7 @@ dgeList$genes <- genes[rownames(dgeList),]
 
 As you may have noticed, no reads aligned to the 4th gene in this dataset so we can remove it from the data.
 There are probably many more genes in this boat too.
-Let's do a logical test to see how manay genes were not detected in our dataset.
+Let's do a logical test to see how many genes were not detected in our dataset.
 
 ```{r checkZeroes}
 dgeList$counts %>% 
@@ -126,7 +198,7 @@ dgeList$counts %>%
 
 A common approach would be to remove undetectable genes using some metric, such as *Counts per Million reads*, known as `cpm`.
 We could consider a gene detectable if returning more than 1CPM in every sample from one of the treatment groups.
-Although our dataset is small (all libraries are < 1e6 reads), we usually deal with libraries betwen 20-30million reads, and this would equate to 20-30 reads aligning to a gene, in every sample from a treatment group.
+Although our dataset is small (all libraries are < 1e6 reads), we usually deal with libraries between 20-30million reads, and this would equate to 20-30 reads aligning to a gene, in every sample from a treatment group.
 Here our smallest group is 3 so let's see what would happen if we applied that filter.
 
 ```{r checkFiltering}
@@ -150,7 +222,7 @@ dgeFilt <- dgeList[genes2keep,] %>% calcNormFactors()
 ```
 
 Let's compare the distributions of the two datasets.
-Note the peak at the left inthe first plot around zero.
+Note the peak at the left in the first plot around zero.
 This is all of the genes with near-zero counts.
 Then note that this peak is missing the second plot, confirming that we have removed most of the undetectable genes.
 
@@ -194,9 +266,9 @@ pca <- dgeFilt %>%
 ```
 
 In our DGEList, we have the genes as the variables of interest for our main analysis, however for the PCA we're looking at out samples as the variables of interest.
-The third line i the above code chunk has transposed the matrix returned by `cpm()` to place the samples as the rows, which is where the function `prcomp()` expects to see the variables of interest.
+The third line in the above code chunk has transposed the matrix returned by `cpm()` to place the samples as the rows, which is where the function `prcomp()` expects to see the variables of interest.
 
-A quick inspection of the results shows tht the first two components capture most of the varibility, as expected.
+A quick inspection of the results shows that the first two components capture most of the variability, as expected.
 Beyond this observation, the details of PCA are beyond what we can cover here.
 
 ```{r}
