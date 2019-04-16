@@ -34,8 +34,13 @@ library(ggrepel)
 
 First we should import the file we've created using `featureCounts`.
 
-```{r counts}
+```{r, echo=FALSE}
 counts <- read_tsv("../data/genes.out")
+```
+
+
+```{r counts, eval=FALSE}
+counts <- read_tsv("../2_alignedData/counts/genes.out")
 ```
 
 This file has the gene identifiers in the first column, with the remaining columns containing the name of the `bam` file and the number of reads aligning to each gene.
@@ -195,7 +200,7 @@ A quick inspection of the results shows tht the first two components capture mos
 Beyond this observation, the details of PCA are beyond what we can cover here.
 
 ```{r}
-summary(pca)$importance %>% pander()
+summary(pca)$importance %>% pander(split.tables = Inf)
 ```
 
 We can also plot our results to see if samples group clearly with the treatment group based on our main two principal components.
@@ -272,7 +277,56 @@ topTable %>%
                         dplyr::filter(abs(logFC) > 2 | AveExpr > 14),
                     aes(label = Symbol)) + 
     scale_colour_manual(values = c("grey", "red")) +
+    labs(x = "Average Expression (log2 CPM)",
+         y = "log Fold-Change") +
     theme_bw() +
     theme(legend.position = "none")
+```
+
+## GO Enrichment
+
+Bioconductor doesn't maintain a mapping for GO terms for *Danio rerio* using EntrezGene identifiers.
+
+```{r}
+ens2Entrez <- file.path("https://uofabioinformaticshub.github.io/Intro-NGS-fib", "data", "ens2Entrez.tsv") %>% 
+    url() %>%
+    read_tsv()
+# closeAllConnections()
+```
+
+
+```{r}
+de <- topTable %>%
+    dplyr::filter(FDR < 0.05) %>%
+    dplyr::select(Geneid) %>%
+    left_join(ens2Entrez) %>%
+    dplyr::filter(!is.na(Entrez)) %>%
+    .[["Entrez"]] %>%
+    unique()
+uv <- topTable %>%
+    dplyr::select(Geneid) %>%
+    left_join(ens2Entrez) %>%
+    dplyr::filter(!is.na(Entrez)) %>%
+    .[["Entrez"]] %>%
+    unique()
+```
+
+```{r}
+goResults <- goana.default(de, uv, "Hs")
+```
+
+```{r}
+head(goResults)
+```
+
+```{r}
+goResults %>% 
+    rownames_to_column("go_id") %>%
+    as_tibble() %>%
+    dplyr::filter(DE > 1) %>%
+    arrange(P.DE) %>%
+    mutate(FDR = p.adjust(P.DE, "fdr")) %>%
+    dplyr::filter(FDR < 0.05) %>%
+    pander(caption = "GO Terms considered as enriched in the set of differentially expressed genes")
 ```
 
