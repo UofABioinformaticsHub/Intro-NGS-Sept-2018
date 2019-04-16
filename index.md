@@ -3,15 +3,7 @@
 ## Presented by the Bioinformatics Hub <br> University of Adelaide
 ## https://uofabioinformaticshub.github.io/Intro-NGS-fib/
 
-# Computer Setup
 
-[Setup Instructions](install/setup)
-
-# WiFi
-
-Please connect using your University of Adelaide login.
-If you don't have one, please connect using the UofA-Guest network.
-Today's password is ``
 
 # Course Material
 
