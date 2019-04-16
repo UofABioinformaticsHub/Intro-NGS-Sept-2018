@@ -15,7 +15,7 @@ Genome browsers enable researchers to visualize and browse entire genomes with a
 ### UCSC
 {:.no_toc}
 
-Later today we'll use a genome browser running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
+Often we'll use a genome browser running on our local machines (IGV), but a good one to start with is the web-based UCSC browser.
 Click [this link](http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A11102837%2D11267747&hgsid=690299847_w2EtEiD6JAZeB5jX6o9m02x2hGaI) and you should see a slightly intimidating screen full of information.
 
 You'll be able to see:
