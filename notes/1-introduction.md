@@ -35,6 +35,7 @@ Today your helpers will be
 
 - Steve Pederson (Bioinformatics Hub)
 - Dan Kortschak (Bioinformatics Hub)
+- Cuong To (Bioinformatics Hub)
 - Jimmy Breen (Bioinformatics Hub / Med School / SAHMRI)
 - Nathan Watson-Haigh (Bioinformatics Hub)
 - Ning Liu Bioinformatics Hub / Med School)
