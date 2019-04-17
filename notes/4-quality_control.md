@@ -139,7 +139,7 @@ Some of these are not particularly informative, and the modules we can reasonabl
 #### Questions
 {:.no_toc}
 
-1. *How many sequences are there in both files?*
+1. *How many sequences are there in all files?*
 2. *How long are the sequences in these files?*
 
 ## Interpreting the FastQC Report
