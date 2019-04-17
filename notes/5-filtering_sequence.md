@@ -86,7 +86,7 @@ In following excerpts, we'll (hopefully) give you all the clues you need to comp
 
 **How do we find our files?**
 
-Copy the following into a new file in your bash folder by entering the command `nano bash/removeAdapters.sh` (make sure you're in the project home first)
+Copy the following into a new file in your bash folder by entering the command `nano bash/removeAdapters.sh` (make sure you're in the main project directory first by entering `cd ~/agingRnaSeq`)
 
 ```
 #!/bin/bash
