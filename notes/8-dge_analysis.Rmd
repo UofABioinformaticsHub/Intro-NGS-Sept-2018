@@ -417,6 +417,14 @@ topTable %>%
 
 ## GO Enrichment
 
+Before we perform this step, we need to install two missing packages to our VM, which are located on the Bioconductor repository.
+Note the slightly different installation method for these packages.
+
+```{r, eval=FALSE}
+BiocManager::install(c("GO.db", "org.Hs.eg.db"))
+```
+
+
 In order to connect our genes to any larger biological behaviours, enrichments tests are commonly performed, with Gene Ontology (GO) terms being a common way to describe biology.
 The tool we'll use today is the function `goana()` from the package `limma` which essentially performs Fisher's Exact Test as an enrichment test. 
 Internally it is framed as a hypergeometric distribution, which is equivalent.
