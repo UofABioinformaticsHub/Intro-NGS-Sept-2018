@@ -122,7 +122,7 @@ Change your script to be the following.
 
 # Setup our input directory, then look for the files we need
 INDIR=~/agingRnaSeq/0_rawData/fastq
-INFILES=$(ls "${INDIR}/*fq.gz")
+INFILES=$(ls ${INDIR}/*fq.gz)
 
 # Define our output parent directory
 OUTDIR=~/agingRnaSeq/1_trimmedData
